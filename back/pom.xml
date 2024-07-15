@@ -11,7 +11,7 @@
 	<groupId>ru.finam</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
+	<name>back</name>
 	<description>Finam project for practice</description>
 	<url/>
 	<licenses>
