@@ -59,28 +59,32 @@ const DataTable = () => {
     () => [
       {
         accessorKey: 'name.firstName', //access nested data with dot notation
-        header: 'First Name',
+        header: 'Тикер',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'name.lastName',
-        header: 'Last Name',
+        header: 'Наименование',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'address', //normal accessorKey
-        header: 'Address',
+        header: 'Цена',
         size: 200,
       },
       {
         accessorKey: 'city',
-        header: 'City',
+        header: 'Капитализация',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'state',
-        header: 'State',
+        header: 'Ср. объем торгов',
         size: 150,
+        enableSorting: false,
       },
     ],
     [],
@@ -89,6 +93,32 @@ const DataTable = () => {
   const table = useMaterialReactTable({
     columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowSelection: false, //enable some features
+    enableColumnOrdering: false, //enable a feature for all columns
+    enableGlobalFilter: false, 
+    enableDensityToggle: false,
+    enableColumnActions: false,
+    enableColumnFilters: false,
+    enableColumnVisibility: false,
+    enableFullScreenToggle: false,
+    muiTableProps: {
+        sx: {
+          border: '1px solid rgba(81, 81, 81, .5)',
+          caption: {
+            captionSide: 'top',
+          },
+        },
+      },
+    muiTableHeadCellProps: {
+        sx: {
+          border: '1px solid rgba(81, 81, 81, .5)',
+        },
+      },
+      muiTableBodyCellProps: {
+        sx: {
+          border: '1px solid rgba(81, 81, 81, .5)',
+        },
+      },
   });
 
   return <MaterialReactTable table={table} />;
