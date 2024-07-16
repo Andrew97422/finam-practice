@@ -8,6 +8,17 @@ import NumberInput from "./inputs/NumberInput";
 const FilterForm = ({ onFilterChange }) => {
 	const methods = useForm({
 		mode: "onChange",
+		defaultValues: {
+			tickername: "",
+			type: "Акции",
+			sector: "Финансы",
+			priceFrom: "0",
+			priceUpTo: "300000",
+			capitalizationFrom: "0",
+			capitalizationUpTo: "7000000000000",
+			volumeFrom: "0",
+			volumeUpTo: "1	",
+		},
 	});
 
 	const { handleSubmit, watch } = methods;
@@ -91,11 +102,21 @@ const FilterForm = ({ onFilterChange }) => {
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/12">От:</span>
-						<NumberInput name="priceFrom" className="grow" />
+						<NumberInput
+							name="priceFrom"
+							min={0}
+							max={300000}
+							className="grow"
+						/>
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/12">До:</span>
-						<NumberInput name="priceUpTo" className="grow" />
+						<NumberInput
+							name="priceUpTo"
+							min={0}
+							max={300000}
+							className="grow"
+						/>
 					</div>
 				</div>
 				<h2 className="text-main">Капитализация:</h2>
@@ -105,6 +126,8 @@ const FilterForm = ({ onFilterChange }) => {
 						<NumberInput
 							name="capitalizationFrom"
 							className="grow"
+							min={0}
+							max={7000000000000}
 						/>
 					</div>
 					<div className="flex flex-row gap-2">
@@ -112,6 +135,8 @@ const FilterForm = ({ onFilterChange }) => {
 						<NumberInput
 							name="capitalizationUpTo"
 							className="grow"
+							min={0}
+							max={7000000000000}
 						/>
 					</div>
 				</div>
@@ -119,11 +144,21 @@ const FilterForm = ({ onFilterChange }) => {
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/12">От:</span>
-						<NumberInput name="volumeFrom" />
+						<NumberInput
+							name="volumeFrom"
+							min={0}
+							max={1}
+							step={0.01}
+						/>
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/12">До:</span>
-						<NumberInput name="volumeUpTo" />
+						<NumberInput
+							name="volumeUpTo"
+							min={0}
+							max={1}
+							step={0.01}
+						/>
 					</div>
 				</div>
 				<DevTool control={methods.control} />
