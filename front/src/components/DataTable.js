@@ -7,7 +7,7 @@ import {
 import { Box } from "@mui/material";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
-import CustomSortIcon from './CustomSortIcon.jsx'
+import CustomSortIcon from './icons/CustomSortIcon.jsx'
 
 // Пример данных, обычно такие данные загружают с API
 const initialData = [
