@@ -19,8 +19,8 @@ public class InstrumentTypeEntity {
     private int id;
 
     @Column(name = "instrument_type")
-    private String type;
+    private String name;
 
-    @OneToMany(mappedBy = "type")
+    @OneToMany(mappedBy = "instrumentType")
     private List<FinanceInstrumentEntity> financeInstrumentList;
 }

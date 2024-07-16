@@ -19,7 +19,7 @@ public class SectorEntity {
     private int id;
 
     @Column(name = "type_of_sector")
-    private String typeOfSector;
+    private String name;
 
     @OneToMany(mappedBy = "sector")
     private List<FirmEntity> firmList;

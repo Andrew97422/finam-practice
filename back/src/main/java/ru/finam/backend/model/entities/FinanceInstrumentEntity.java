@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,16 +20,14 @@ public class FinanceInstrumentEntity {
 
     @ManyToOne
     @JoinColumn(name = "firm_id")
-    @JsonIgnore
     private FirmEntity firm;
 
     @ManyToOne
     @JoinColumn(name = "instrument_type_id")
-    @JsonIgnore
-    private InstrumentTypeEntity type;
+    private InstrumentTypeEntity instrumentType;
 
     @Column(name = "average_trading_volume")
-    private float average_trading_volume;
+    private float averageTradingVolume;
 
     @Column(name = "price")
     private float price;

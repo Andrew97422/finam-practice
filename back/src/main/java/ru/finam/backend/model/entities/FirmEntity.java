@@ -27,7 +27,6 @@ public class FirmEntity {
 
     @ManyToOne
     @JoinColumn(name = "sector_id")
-    @JsonIgnore
     private SectorEntity sector;
 
     @Column(name = "capitalization")
