@@ -3,6 +3,7 @@ import SideBar from "./components/SideBar";
 import { fetchData } from "./services/api";
 import "./index.css";
 import DataTable from "./components/DataTable";
+import DataTable1 from "./components/DataTable1";
 
 function App() {
 	const [data, setData] = useState([]);
@@ -21,7 +22,7 @@ function App() {
 		setFilters((prevFilters) => {
 			if (JSON.stringify(prevFilters) !== JSON.stringify(newFilters)) {
 				console.log(JSON.stringify(newFilters, "", 4));
-				return newFilters;	
+				return newFilters;
 			}
 			return prevFilters;
 		});
@@ -29,20 +30,9 @@ function App() {
 
 	return (
 		<div className="App">
-			<header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
+			<SideBar />
+			<DataTable />
+			<DataTable1 />
 		</div>
 	);
 }

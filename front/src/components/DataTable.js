@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {
-  MaterialReactTable,
+  MRT_Table,
   useMaterialReactTable,
 } from 'material-react-table';
 
@@ -53,34 +53,39 @@ const data = [
   },
 ];
 
+
 const DataTable = () => {
   //should be memoized or stable
   const columns = useMemo(
     () => [
       {
         accessorKey: 'name.firstName', //access nested data with dot notation
-        header: 'First Name',
+        header: 'Тикер',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'name.lastName',
-        header: 'Last Name',
+        header: 'Наименование',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'address', //normal accessorKey
-        header: 'Address',
+        header: 'Цена',
         size: 200,
       },
       {
         accessorKey: 'city',
-        header: 'City',
+        header: 'Капитализация',
         size: 150,
+        enableSorting: false,
       },
       {
         accessorKey: 'state',
-        header: 'State',
+        header: 'Ср. объем торгов',
         size: 150,
+        enableSorting: false,
       },
     ],
     [],
@@ -89,9 +94,43 @@ const DataTable = () => {
   const table = useMaterialReactTable({
     columns,
     data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowSelection: false, //enable some features
+    enableColumnOrdering: false, //enable a feature for all columns
+    enableGlobalFilter: false, 
+    enableDensityToggle: false,
+    enableColumnActions: false,
+    enableColumnFilters: false,
+    enableColumnVisibility: false,
+    enableFullScreenToggle: false,
+    enablePagination: true,
+    muiTableHeadCellProps: {
+        sx: {
+          backgroundColor: '#72d4cc', // Здесь задается цвет фона
+          color: '#000', // Здесь задается цвет текста
+          border: '1px solid rgba(81, 81, 81, .5)',
+        },
+    },
+    muiTableProps: {
+        sx: {
+            caption: {
+            captionSide: 'top',
+          },
+        },
+    },
+    muiTableBodyCellProps: {
+        sx: {
+            border: '1px solid rgba(81, 81, 81, .5)',
+        },
+    },
+    muiTableBodyRowProps: { hover: false },
+    muiPaginationProps: {
+        sx: {
+            backgroundColor: '#72d4cc',
+        },
+    },
   });
 
-  return <MaterialReactTable table={table} />;
+  return <MRT_Table table={table} />;
 };
 
 export default DataTable;
