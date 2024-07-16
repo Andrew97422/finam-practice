@@ -1,106 +1,134 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useRef, useCallback } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 import SearchInput from "./inputs/SearchInput";
 import Selector from "./inputs/Selector";
 import NumberInput from "./inputs/NumberInput";
 
 const FilterForm = ({ onFilterChange }) => {
-	const { register, handleSubmit } = useForm();
+	const methods = useForm({
+		mode: "onChange",
+	});
 
-	const onSubmit = (data) => {
-		onFilterChange(data);
-	};
+	const { handleSubmit, watch } = methods;
+	const formValues = watch();
+	const debounceRef = useRef(null);
+	const prevFormValuesRef = useRef(formValues);
+
+	const debouncedSubmit = useCallback(
+		(data) => {
+			// Debounce function
+			if (debounceRef.current) {
+				clearTimeout(debounceRef.current);
+			}
+			debounceRef.current = setTimeout(() => {
+				onFilterChange(data);
+			}, 300);
+		},
+		[onFilterChange]
+	);
+
+	useEffect(() => {
+		const hasFormChanged =
+			JSON.stringify(prevFormValuesRef.current) !==
+			JSON.stringify(formValues);
+
+		if (hasFormChanged) {
+			prevFormValuesRef.current = formValues;
+			handleSubmit(debouncedSubmit)();
+		}
+	}, [formValues, handleSubmit, debouncedSubmit]);
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className=" flex flex-col gap-4"
-		>
-			<SearchInput {...register("tickername")} />
-			<h2 className="text-main">Тип инструмента:</h2>
-			<Selector
-				{...register("type")}
-				optionsData={[
-					{ value: "Акции", text: "Акции" },
-					{ value: "Индексы", text: "Индексы" },
-					{ value: "Фьючерсы", text: "Фьючерсы" },
-					{ value: "Валюты", text: "Валюты" },
-					{ value: "Фонды", text: "Фонды" },
-					{ value: "Облигации", text: "Облигации" },
-				]}
-			/>
-			<h2 className="text-main">Сектор:</h2>
-			<Selector
-				{...register("sector")}
-				optionsData={[
-					{ value: "Финансы", text: "Финансы" },
-					{ value: "Энергетика", text: "Энергетика" },
-					{ value: "Материалы", text: "Материалы" },
-					{
-						value: "Потребительские товары массового спроса",
-						text: "Потребительские товары массового спроса",
-					},
-					{ value: "Услуги связи", text: "Услуги связи" },
-					{
-						value: "Неосновные потребительские товары",
-						text: "Неосновные потребительские товары",
-					},
-					{ value: "Промышленность", text: "Промышленность" },
-					{ value: "Недвижимость", text: "Недвижимость" },
-					{
-						value: "Коммунальные услуги",
-						text: "Коммунальные услуги",
-					},
-					{
-						value: "Информационные технологии",
-						text: "Информационные технологии",
-					},
-					{
-						value: "Здравоохранение",
-						text: "Здравоохранение",
-					},
-				]}
-			/>
-			<h2 className="text-main">Цена:</h2>
-			<div className="flex flex-col gap-3 w-full">
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">От:</span>
-					<NumberInput {...register("priceFrom")} className="grow" />
+		<FormProvider {...methods}>
+			<form className="flex flex-col gap-4">
+				<SearchInput name="tickername" />
+				<h2 className="text-main">Тип инструмента:</h2>
+				<Selector
+					name="type"
+					optionsData={[
+						{ value: "Акции", text: "Акции" },
+						{ value: "Индексы", text: "Индексы" },
+						{ value: "Фьючерсы", text: "Фьючерсы" },
+						{ value: "Валюты", text: "Валюты" },
+						{ value: "Фонды", text: "Фонды" },
+						{ value: "Облигации", text: "Облигации" },
+					]}
+				/>
+				<h2 className="text-main">Сектор:</h2>
+				<Selector
+					name="sector"
+					optionsData={[
+						{ value: "Финансы", text: "Финансы" },
+						{ value: "Энергетика", text: "Энергетика" },
+						{ value: "Материалы", text: "Материалы" },
+						{
+							value: "Потребительские товары массового спроса",
+							text: "Потребительские товары массового спроса",
+						},
+						{ value: "Услуги связи", text: "Услуги связи" },
+						{
+							value: "Неосновные потребительские товары",
+							text: "Неосновные потребительские товары",
+						},
+						{ value: "Промышленность", text: "Промышленность" },
+						{ value: "Недвижимость", text: "Недвижимость" },
+						{
+							value: "Коммунальные услуги",
+							text: "Коммунальные услуги",
+						},
+						{
+							value: "Информационные технологии",
+							text: "Информационные технологии",
+						},
+						{
+							value: "Здравоохранение",
+							text: "Здравоохранение",
+						},
+					]}
+				/>
+				<h2 className="text-main">Цена:</h2>
+				<div className="flex flex-col gap-3 w-full">
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">От:</span>
+						<NumberInput name="priceFrom" className="grow" />
+					</div>
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">До:</span>
+						<NumberInput name="priceUpTo" className="grow" />
+					</div>
 				</div>
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">До:</span>
-					<NumberInput {...register("priceUpTo")} className="grow" />
+				<h2 className="text-main">Капитализация:</h2>
+				<div className="flex flex-col gap-3 w-full">
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">От:</span>
+						<NumberInput
+							name="capitalizationFrom"
+							className="grow"
+						/>
+					</div>
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">До:</span>
+						<NumberInput
+							name="capitalizationUpTo"
+							className="grow"
+						/>
+					</div>
 				</div>
-			</div>
-			<h2 className="text-main">Капитализация:</h2>
-			<div className="flex flex-col gap-3 w-full">
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">От:</span>
-					<NumberInput
-						{...register("capitalizationFrom")}
-						className="grow"
-					/>
+				<h2 className="text-main">Средний объем торгов:</h2>
+				<div className="flex flex-col gap-3 w-full">
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">От:</span>
+						<NumberInput name="volumeFrom" />
+					</div>
+					<div className="flex flex-row gap-2">
+						<span className="text-main w-1/12">До:</span>
+						<NumberInput name="volumeUpTo" />
+					</div>
 				</div>
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">До:</span>
-					<NumberInput
-						{...register("capitalizationUpTo")}
-						className="grow"
-					/>
-				</div>
-			</div>
-			<h2 className="text-main">Средний объем торгов:</h2>
-			<div className="flex flex-col gap-3 w-full">
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">От:</span>
-					<NumberInput {...register("volumeFrom")} />
-				</div>
-				<div className="flex flex-row gap-2">
-					<span className="text-main w-1/12">До:</span>
-					<NumberInput {...register("volumeUpTo")} />
-				</div>
-			</div>
-		</form>
+				<DevTool control={methods.control} />
+			</form>
+		</FormProvider>
 	);
 };
 

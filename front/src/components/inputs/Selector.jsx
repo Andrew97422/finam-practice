@@ -1,10 +1,13 @@
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useFormContext } from "react-hook-form";
 
-const Selector = ({ optionsData, ...props }) => {
+const Selector = ({ optionsData, name }) => {
+	const { register } = useFormContext();
+
 	return (
 		<div className="relative">
 			<select
-				{...props}
+				{...register(name)}
 				className="block px-2 py-3 appearance-none w-full bg-white border-2 border-gray-300 hover:ring-0 hover:outline-none hover:border-border_primary rounded-lg focus:outline-none items-center justify-center"
 			>
 				{optionsData.map((option) => (

@@ -16,9 +16,16 @@ function App() {
 	}, [filters]);
 
 	const handleFilterChange = (newFilters) => {
-		setFilters(newFilters);
-		setData(JSON.stringify(newFilters));
+		// Avoid unnecessary state updates
+		setFilters((prevFilters) => {
+			if (JSON.stringify(prevFilters) !== JSON.stringify(newFilters)) {
+				console.log(JSON.stringify(newFilters, "", 4));
+				return newFilters;	
+			}
+			return prevFilters;
+		});
 	};
+
 	return (
 		<div>
 			<p>{JSON.stringify(data)}</p>
