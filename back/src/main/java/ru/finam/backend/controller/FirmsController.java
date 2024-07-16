@@ -1,11 +1,14 @@
 package ru.finam.backend.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.finam.backend.model.dto.InputDto;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/firms")
 public class FirmsController {
     @GetMapping
