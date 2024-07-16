@@ -6,6 +6,8 @@ import {
 } from "material-react-table";
 import { Box } from "@mui/material";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
+import CustomSortIcon from './CustomSortIcon.jsx'
 
 // Пример данных, обычно такие данные загружают с API
 const initialData = [
@@ -148,13 +150,28 @@ const DataTable = () => {
     muiPaginationProps: {
       showFirstButton: false,
       showLastButton: false,
+      sx: {
+        backgroundColor: "#72d4cc",
+        display: "flex",
+        justifyContent: "flex-end", // Выравниваем пагинацию по правой стороне
+      },
     },
+
+    icons: {
+      ArrowDownwardIcon: (props) => {
+        return <CustomSortIcon {...props} />;
+      },
+      SyncAltIcon: () => <FilterListOffIcon />
+     },
+
   });
 
   return (
     <Box>
       <MRT_Table table={table} />
-      <MRT_TablePagination table={table} />
+      <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2}>
+        <MRT_TablePagination table={table} />
+      </Box>
     </Box>
   );
 };

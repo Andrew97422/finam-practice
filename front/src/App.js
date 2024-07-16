@@ -3,7 +3,6 @@ import SideBar from "./components/SideBar";
 import { fetchData } from "./services/api";
 import "./index.css";
 import DataTable from "./components/DataTable";
-import DataTable1 from "./components/DataTable1";
 
 function App() {
 	const [data, setData] = useState([]);
@@ -34,7 +33,6 @@ function App() {
 				<SideBar onFilterChange={handleFilterChange} />
 				<main className="flex-grow p-4">
 					<DataTable />
-					{/* <DataTable1 /> */}
 				</main>
 			</div>
 		</div>
