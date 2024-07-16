@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import {
-  MaterialReactTable,
+  MRT_Table,
   useMaterialReactTable,
 } from 'material-react-table';
 
@@ -53,6 +53,7 @@ const data = [
   },
 ];
 
+
 const DataTable = () => {
   //should be memoized or stable
   const columns = useMemo(
@@ -101,27 +102,35 @@ const DataTable = () => {
     enableColumnFilters: false,
     enableColumnVisibility: false,
     enableFullScreenToggle: false,
+    enablePagination: true,
+    muiTableHeadCellProps: {
+        sx: {
+          backgroundColor: '#72d4cc', // Здесь задается цвет фона
+          color: '#000', // Здесь задается цвет текста
+          border: '1px solid rgba(81, 81, 81, .5)',
+        },
+    },
     muiTableProps: {
         sx: {
-          border: '1px solid rgba(81, 81, 81, .5)',
-          caption: {
+            caption: {
             captionSide: 'top',
           },
         },
-      },
-    muiTableHeadCellProps: {
+    },
+    muiTableBodyCellProps: {
         sx: {
-          border: '1px solid rgba(81, 81, 81, .5)',
+            border: '1px solid rgba(81, 81, 81, .5)',
         },
-      },
-      muiTableBodyCellProps: {
+    },
+    muiTableBodyRowProps: { hover: false },
+    muiPaginationProps: {
         sx: {
-          border: '1px solid rgba(81, 81, 81, .5)',
+            backgroundColor: '#72d4cc',
         },
-      },
+    },
   });
 
-  return <MaterialReactTable table={table} />;
+  return <MRT_Table table={table} />;
 };
 
 export default DataTable;
