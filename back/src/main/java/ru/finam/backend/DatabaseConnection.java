@@ -16,18 +16,18 @@ public class DatabaseConnection {
         Properties props = new Properties();
 
         // Чтение файла из ресурсов
-        try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("db.properties")) {
+        try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream("application.yml")) {
             if (input == null) {
-                System.out.println("Sorry, unable to find db.properties");
+                System.out.println("Sorry, unable to find application.yml");
                 return null;
             }
             props.load(input);
         }
 
-        String url = props.getProperty("db.url");
-        String user = props.getProperty("db.user");
-        String password = props.getProperty("db.password");
-        String driver = props.getProperty("db.driver");
+        String url = props.getProperty("url");
+        String user = props.getProperty("username");
+        String password = props.getProperty("password");
+        String driver = props.getProperty("driver-class-name");
 
         try {
             Class.forName(driver);

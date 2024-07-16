@@ -1,3 +1,26 @@
 spring:
   application:
     name: backend
+
+datasource:
+  url: jdbc:postgresql://localhost:5432/Test
+  username: postgres
+  password: 15951
+  driver-class-name: org.postgresql.Driver
+
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect:  org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+    defer-datasource-initialization: true
