@@ -17,7 +17,7 @@ const NumberInput = ({ name, min = 0, max = 100, step = 1 }) => {
 			min={min}
 			max={max}
 			type="number"
-			className="rounded-lg grow p-1 appearance-none border-2 border-gray-300 hover:ring-0 hover:outline-none hover:border-border_primary focus:outline-none"
+			className="rounded-lg grow p-1 mr-28 appearance-none border-2 border-gray-300 hover:ring-0 hover:outline-none hover:border-border_primary focus:outline-none"
 			onInput={handleInput}
 		/>
 	);
