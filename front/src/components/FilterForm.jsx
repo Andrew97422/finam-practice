@@ -17,7 +17,7 @@ const FilterForm = ({ onFilterChange }) => {
 			capitalizationFrom: "0",
 			capitalizationUpTo: "7000000000000",
 			volumeFrom: "0",
-			volumeUpTo: "1	",
+			volumeUpTo: "1",
 		},
 	});
 
