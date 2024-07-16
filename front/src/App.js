@@ -30,9 +30,13 @@ function App() {
 
 	return (
 		<div className="App">
-			<SideBar />
-			<DataTable />
-			<DataTable1 />
+			<div className="flex h-screen">
+				<SideBar onFilterChange={handleFilterChange} />
+				<main className="flex-grow p-4">
+					<DataTable />
+					<DataTable1 />
+				</main>
+			</div>
 		</div>
 	);
 }
