@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "firms" (
   "name" varchar,
   "ticker" varchar,
   "sector_id" int,
-  "capitalization" varchar
+  "capitalization" float
 );
 
 CREATE TABLE IF NOT EXISTS "instrument_types" (
@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS "finance_instruments" (
   "finance_instrument_id" serial PRIMARY KEY,
   "firm_id" int,
   "instrument_type_id" int,
-  "average_trading_volume" varchar,
-  "price" integer
+  "average_trading_volume" float,
+  "price" float
 );
 
 ALTER TABLE "firms" ADD FOREIGN KEY ("sector_id") REFERENCES "sectors" ("sector_id");
