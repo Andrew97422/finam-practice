@@ -52,7 +52,7 @@ const FilterForm = ({ onFilterChange }) => {
 
 	return (
 		<FormProvider {...methods}>
-			<form className="flex flex-col gap-4">
+			<form className="flex flex-col gap-4 h-full">
 				<SearchInput name="tickername" />
 				<h2 className="text-main">Тип инструмента:</h2>
 				<Selector
@@ -101,40 +101,28 @@ const FilterForm = ({ onFilterChange }) => {
 				<h2 className="text-main">Цена:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">От:</span>
-						<NumberInput
-							name="priceFrom"
-							min={0}
-							max={300000}
-							className="grow"
-						/>
+						<span className="text-main w-1/6">От:</span>
+						<NumberInput name="priceFrom" min={0} max={300000} />
 					</div>
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">До:</span>
-						<NumberInput
-							name="priceUpTo"
-							min={0}
-							max={300000}
-							className="grow"
-						/>
+						<span className="text-main w-1/6">До:</span>
+						<NumberInput name="priceUpTo" min={0} max={300000} />
 					</div>
 				</div>
 				<h2 className="text-main">Капитализация:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">От:</span>
+						<span className="text-main w-1/6">От:</span>
 						<NumberInput
 							name="capitalizationFrom"
-							className="grow"
 							min={0}
 							max={7000000000000}
 						/>
 					</div>
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">До:</span>
+						<span className="text-main w-1/6">До:</span>
 						<NumberInput
 							name="capitalizationUpTo"
-							className="grow"
 							min={0}
 							max={7000000000000}
 						/>
@@ -143,7 +131,7 @@ const FilterForm = ({ onFilterChange }) => {
 				<h2 className="text-main">Средний объем торгов:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">От:</span>
+						<span className="text-main w-1/6">От:</span>
 						<NumberInput
 							name="volumeFrom"
 							min={0}
@@ -152,7 +140,7 @@ const FilterForm = ({ onFilterChange }) => {
 						/>
 					</div>
 					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/12">До:</span>
+						<span className="text-main w-1/6">До:</span>
 						<NumberInput
 							name="volumeUpTo"
 							min={0}
@@ -161,7 +149,7 @@ const FilterForm = ({ onFilterChange }) => {
 						/>
 					</div>
 				</div>
-				<DevTool control={methods.control} />
+				{/* <DevTool control={methods.control} /> */}
 			</form>
 		</FormProvider>
 	);
