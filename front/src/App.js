@@ -34,7 +34,7 @@ function App() {
 				<SideBar onFilterChange={handleFilterChange} />
 				<main className="flex-grow p-4">
 					<DataTable />
-					<DataTable1 />
+					{/* <DataTable1 /> */}
 				</main>
 			</div>
 		</div>
