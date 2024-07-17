@@ -6,13 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class FirmaDto {
-    private String tickerName;
+@AllArgsConstructor
+@Builder
+public class FinanceInstrumentResponseDTO {
+    private String ticker;
     private String name;
     private float price;
     private float capitalization;
-    private float averageTradingVolume;
+    private float average_trading_volume;
 }
