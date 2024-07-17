@@ -15,7 +15,7 @@ public class ApplicationUtils {
                 .ticker(f.getTicker())
                 .name(f.getName())
                 .price(fi.getPrice())
-                .average_trading_volume(fi.getAverageTradingVolume())
+                .averageTradingVolume(fi.getAverageTradingVolume())
                 .capitalization(f.getCapitalization())
                 .build();
     }
