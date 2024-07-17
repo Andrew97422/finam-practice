@@ -12,7 +12,6 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.service.FinanceInstrumentService;
 
-import java.util.List;
 
 @RestController
 @CrossOrigin
