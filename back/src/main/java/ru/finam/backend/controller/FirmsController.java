@@ -3,6 +3,7 @@ package ru.finam.backend.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.finam.backend.model.dto.InputDto;
+import ru.finam.backend.service.FirmFilterService;
 
 import java.util.List;
 
@@ -11,6 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/firms")
 public class FirmsController {
+
+    private FirmFilterService firmFilterService;
+
     @GetMapping
     public List<InputDto> findAllInputDto() {
         return null;

@@ -1,12 +1,21 @@
 spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+
   application:
     name: backend
 
-datasource:
-  url: jdbc:postgresql://localhost:5432/Test
-  username: postgres
-  password: 15951
-  driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Test
+    username: postgres
+    password: 15951 # 123
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     generate-ddl: true
