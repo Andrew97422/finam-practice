@@ -5,9 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.service.ApplicationUtils;
-import ru.finam.backend.service.FirmFilterService;
-
-import java.util.List;
+import ru.finam.backend.service.FinanceInstrumentService;
 
 @RestController
 @CrossOrigin
@@ -15,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/v1/firms")
 public class FirmsController {
 
-    private final FirmFilterService firmFilterService;
+    private final FinanceInstrumentService financeInstrumentService;
     private final ApplicationUtils applicationUtils;
 
     @GetMapping("/")

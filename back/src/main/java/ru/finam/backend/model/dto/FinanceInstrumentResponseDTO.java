@@ -14,5 +14,5 @@ public class FinanceInstrumentResponseDTO {
     private String name;
     private float price;
     private float capitalization;
-    private float average_trading_volume;
+    private float averageTradingVolume;
 }
