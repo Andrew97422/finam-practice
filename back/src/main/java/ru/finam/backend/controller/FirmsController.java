@@ -1,6 +1,9 @@
 package ru.finam.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,11 +19,17 @@ import ru.finam.backend.service.FinanceInstrumentService;
 @CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/firms")
+@Tag(
+        name = "Контроллер скринера"
+)
+@Slf4j
 public class FirmsController {
 
-    private static final Logger log = LoggerFactory.getLogger(FirmsController.class);
     private final FinanceInstrumentService financeInstrumentService;
 
+    @Operation(
+            summary = "Получение инструментов"
+    )
     @GetMapping("/finance_instruments")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
             @PathVariable FinanceInstrumentRequestDTO filter,
