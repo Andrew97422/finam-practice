@@ -3,9 +3,6 @@ package ru.finam.backend.service;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
@@ -69,7 +66,6 @@ public class FinanceInstrumentService {
       List<FinanceInstrumentEntity> l) {
     return !type.isEmpty() ? filterInstruments(
         fiEntity -> fiEntity.getFirm().getSector().getName().equals(type), l) : l;
-
   }
 
   private List<FinanceInstrumentEntity> filterInstrumentsByInstrumentType(String type,
