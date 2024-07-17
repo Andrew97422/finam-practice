@@ -64,6 +64,7 @@ public class FinanceInstrumentService {
         // фильтрация по остальным параметрам
 
         // return  Page<FinanceInstrumentResponseDTO>
+        return null;
     }
 
     private List<FinanceInstrumentEntity> findFinanceInstrumentsByFirmNameOrTicker(FinanceInstrumentRequestDTO filter,
