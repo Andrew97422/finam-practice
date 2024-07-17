@@ -1,10 +1,8 @@
 FROM maven:3.8.4-openjdk-17 as build
 
-ARG DB_HOST
-ARG DB_PORT
+ARG DB_URL
 ARG DB_PASSWORD
 ARG DB_USERNAME
-ARG DB_NAME
 
 COPY back/src /usr/src/app/src
 COPY back/pom.xml /usr/src/app
