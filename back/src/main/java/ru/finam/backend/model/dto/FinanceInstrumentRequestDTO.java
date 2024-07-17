@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FinanceInstrumentRequestDTO {
-    private String tickername;
+    private String tickerName;
     private String type;
     private String sector;
-    private float priceFrom;
-    private float priceUpTo;
-    private float capitalizationFrom;
-    private float capitalizationUpTo;
-    private float volumeFrom;
-    private float volumeUpTo;
+    private String priceFrom;
+    private String priceUpTo;
+    private String capitalizationFrom;
+    private String capitalizationUpTo;
+    private String volumeFrom;
+    private String volumeUpTo;
 }
