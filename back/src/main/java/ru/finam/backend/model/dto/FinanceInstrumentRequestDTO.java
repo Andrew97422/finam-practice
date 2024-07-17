@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InputDto {
+public class FinanceInstrumentRequestDTO {
     private String tickername;
     private String type;
     private String sector;
