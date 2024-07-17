@@ -21,7 +21,6 @@ public interface FinanceInstrumentRepository extends JpaRepository<FinanceInstru
     List<FinanceInstrumentEntity> findFinanceInstrumentsByFirmTicker(String ticker);
     List<FinanceInstrumentEntity> findFinanceInstrumentsByFirmName(String name);
 
-   // Page<FinanceInstrumentEntity> findAllFinanceInstruments(Pageable pageable);
 
     @Query(
             value = "SELECT fi.* FROM finance_instruments fi JOIN firms f ON fi.firm_id = f.firm_id" +

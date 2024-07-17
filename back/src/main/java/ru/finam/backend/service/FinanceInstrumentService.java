@@ -1,7 +1,7 @@
 package ru.finam.backend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -11,10 +11,10 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 import ru.finam.backend.repositories.FinanceInstrumentRepository;
-import ru.finam.backend.repositories.FirmRepository;
-import ru.finam.backend.repositories.InstrumentTypeRepository;
-import ru.finam.backend.repositories.SectorRepository;
+
 import java.util.List;
+import java.util.function.Predicate;
+
 
 @Service
 @RequiredArgsConstructor
@@ -23,103 +23,133 @@ public class FinanceInstrumentService {
     private final FinanceInstrumentRepository financeInstrumentRepository;
     private final ApplicationUtils applicationUtils;
 
-    // Получить List<FinanceInstrumentEntity> (либо сразу все данные, либо если есть tickerName, то только те,
-    // которые удовлетворяют условию)
-
-    // Отфильтровать List<FinanceInstrumentEntity> по всем параметрам, если нужно
-
-    // Пройтись по каждому элементу List<FinanceInstrumentEntity> и применить map-функцию.
-    // Получить List<FinanceInstrumentResponseDTO>
-
-    // Перевести этот список в Page<FinanceInstrumentResponseDTO> и вернуть контроллеру
 
     public Page<FinanceInstrumentResponseDTO> getFinanceInstruments(FinanceInstrumentRequestDTO filter,
-                                                         int offset, int limit){
+                                                                    int offset, int limit){
 
-        List<FinanceInstrumentEntity> buf;
+        List<FinanceInstrumentEntity> entitylist;
 
-        String tickerName = filter.getTickerName();
-        String type = filter.getType();
-        String sector = filter.getSector();
-        String priceFrom = filter.getPriceFrom();
-        String priceUpTo = filter.getPriceUpTo();
-        String capitalizationFrom = filter.getCapitalizationFrom();
-        String capitalizationUpTo = filter.getCapitalizationUpTo();
-        String volumeFrom = filter.getVolumeFrom();
-        String volumeUpTo = filter.getVolumeUpTo();
+        // получаю с БД либо все данные, либо те, которые с именем или тикером tickerName
+        entitylist = filterInstrumentsByNameOrTicker(filter.getTickerName());
 
-        List<FinanceInstrumentEntity> fiEntityList = tickerName.isEmpty() ? financeInstrumentRepository.findAll() :
-                financeInstrumentRepository.findFinanceInstrumentsByNameOrTicker(tickerName, tickerName);
+        // фильтрация по типу инструмента
+        entitylist = filterInstrumentsByInstrumentType(filter.getType(), entitylist);
 
-        if(!type.isEmpty())
-            buf = fiEntityList.parallelStream()
-                    .filter( fiEntity -> fiEntity.getInstrumentType().getName().equals(type))
-                    .toList();
+        // фильтрация по сектору
+        entitylist = filterInstrumentsBySectorType(filter.getSector(), entitylist);
 
-        else if(!sector.isEmpty())
-            buf = fiEntityList.parallelStream()
-                    .filter( fiEntity -> fiEntity.getFirm().getSector().getName().equals(sector))
-                    .toList();
+        // по цене
+        entitylist = filterInstrumentsByPriceRange(filter.getPriceFrom(), filter.getPriceUpTo(), entitylist);
 
-        // фильтрация по остальным параметрам
+        // по капитализации
+        entitylist = filterInstrumentsByCapitalizationRange(filter.getCapitalizationFrom(),
+                filter.getCapitalizationUpTo(), entitylist);
 
-        // return  Page<FinanceInstrumentResponseDTO>
+        // по объему
+        entitylist = filterInstrumentsByAverageTradingVolumeRange(filter.getVolumeFrom(), filter.getVolumeUpTo(),
+                entitylist);
+
+        // перевод в List<FinanceInstrumentResponseDTO>, а затем в Page<FinanceInstrumentResponseDTO>
+         return  applicationUtils.convertListToPage(
+                 applicationUtils.mapToFinanceInstrumentResponseDTOList(entitylist),
+                 offset,
+                 limit);
     }
 
-    private List<FinanceInstrumentEntity> findFinanceInstrumentsByFirmNameOrTicker(FinanceInstrumentRequestDTO filter,
-                                                                                   int offset, int limit){
+    private List<FinanceInstrumentEntity> filterInstruments(Predicate<FinanceInstrumentEntity> predicate,
+                                                            List<FinanceInstrumentEntity> l){
+        return l.parallelStream()
+                .filter(predicate)
+                .toList();
+    }
+
+    private List<FinanceInstrumentEntity> filterInstrumentsByNameOrTicker(String tickerName){
+      return tickerName.isEmpty() ? financeInstrumentRepository.findAll() :
+                financeInstrumentRepository.findFinanceInstrumentsByNameOrTicker(tickerName, tickerName);
+    }
+
+
+    private List<FinanceInstrumentEntity> filterInstrumentsBySectorType(String type, List<FinanceInstrumentEntity> l ){
+          return !type.isEmpty()
+                  ? filterInstruments(
+                          fiEntity -> fiEntity.getFirm().getSector().getName().equals(type),
+                          l)
+                  : l;
+
+    }
+
+    private List<FinanceInstrumentEntity> filterInstrumentsByInstrumentType(String type, List<FinanceInstrumentEntity> l){
+        return !type.isEmpty()
+                ? filterInstruments(
+                        fiEntity -> fiEntity.getInstrumentType().getName().equals(type),
+                        l)
+                : l;
+    }
+
+    private List<FinanceInstrumentEntity> filterInstrumentsByPriceRange(String from, String upTo,
+                                                                        List<FinanceInstrumentEntity> l){
+        return  !from.isEmpty() && !upTo.isEmpty()
+              ? filterInstruments(
+                      fiEntity -> applicationUtils.isInRange(fiEntity.getPrice(),
+                      Float.parseFloat(from),
+                      Float.parseFloat(upTo)),
+                      l)
+                : l;
+    }
+
+    private List<FinanceInstrumentEntity> filterInstrumentsByCapitalizationRange(String from, String upTo,
+                                                                                 List<FinanceInstrumentEntity> l){
+          return !from.isEmpty() && !upTo.isEmpty()
+                  ?  filterInstruments(
+                          fiEntity -> applicationUtils.isInRange(fiEntity.getFirm().getCapitalization(),
+                          Float.parseFloat(from),
+                          Float.parseFloat(upTo)),
+                          l)
+                  : l;
+    }
+
+    private List<FinanceInstrumentEntity> filterInstrumentsByAverageTradingVolumeRange(String from,String upTo,
+                                                                                        List<FinanceInstrumentEntity> l){
+           return !from.isEmpty() && !upTo.isEmpty()
+                   ? filterInstruments(
+                            fiEntity -> applicationUtils.isInRange(fiEntity.getAverageTradingVolume(),
+                            Float.parseFloat(from),
+                            Float.parseFloat(upTo)), l)
+                   : l;
+    }
+
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsByFirmNameOrTicker(FinanceInstrumentRequestDTO filter){
         return financeInstrumentRepository.findFinanceInstrumentsByInstrumentTypeName(filter.getTickerName());
     }
 
-    private Page<FinanceInstrumentResponseDTO> convertListToPage(List<FinanceInstrumentResponseDTO> list,
-                                                                 int offset, int limit){
-        Pageable pageRequest = createPageRequestUsing(offset, limit);
 
-        int start = (int) pageRequest.getOffset();
-        int end = start + pageRequest.getPageSize();
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsByInstrumentTypeName(FinanceInstrumentRequestDTO filter){
+        return financeInstrumentRepository.findFinanceInstrumentsByInstrumentTypeName(filter.getType());
 
-        List<FinanceInstrumentResponseDTO> pageContent = list.subList(start, end);
-        return new PageImpl<>(pageContent, pageRequest, list.size());
     }
 
-    private Pageable createPageRequestUsing(int offset, int limit){
-        return PageRequest.of(offset, limit);
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsBySector(FinanceInstrumentRequestDTO filter){
+        return financeInstrumentRepository.findFinanceInstrumentsBySector(filter.getSector());
     }
 
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsByPriceRange(FinanceInstrumentRequestDTO filter){
+        return financeInstrumentRepository.findFinanceInstrumentsByPriceRange(
+                Float.parseFloat(filter.getPriceFrom()),
+                Float.parseFloat(filter.getPriceUpTo()));
+    }
 
-//    private Page<FinanceInstrumentResponseDTO> findFinanceInstrumentsByInstrumentTypeName(FinanceInstrumentRequestDTO filter,
-//                                                                                          int offset, int limit){
-//        var result = financeInstrumentRepository.findFinanceInstrumentsByInstrumentTypeName(filter.getType(),
-//                PageRequest.of(offset,limit));
-//        return null;
-//    }
-//
-//    private Page<FinanceInstrumentResponseDTO> findFinanceInstrumentsBySector(FinanceInstrumentRequestDTO filter,
-//                                                                              int offset,int limit){
-//        var result = financeInstrumentRepository.findFinanceInstrumentsBySector(filter.getSector(),
-//                PageRequest.of(offset,limit));
-//        return null;
-//    }
-//
-//    private Page<FinanceInstrumentResponseDTO> findFinanceInstrumentsByPriceRange(FinanceInstrumentRequestDTO filter,
-//                                                                                  int offset,int limit){
-//        var result = financeInstrumentRepository.findFinanceInstrumentsByFirmTicker(filter.getTickerName(),
-//                PageRequest.of(offset,limit));
-//        return null;
-//    }
-//
-//    private Page<FinanceInstrumentResponseDTO> findFinanceInstrumentsByCapitalizationRange(FinanceInstrumentRequestDTO fiRequestDTO,
-//                                                                                           int offset,int limit){
-//        var result = financeInstrumentRepository.findFinanceInstrumentsByFirmTicker(fiRequestDTO.getTickerName(),
-//                PageRequest.of(offset,limit));
-//        return null;
-//    }
-//
-//    private Page<FinanceInstrumentResponseDTO> findFinanceInstrumentsByTradingVolumeRange(FinanceInstrumentRequestDTO filter,
-//                                                                                          int offset,int limit){
-//        var result = financeInstrumentRepository.findFinanceInstrumentsByFirmTicker(filter.getTickerName(),
-//                PageRequest.of(offset,limit));
-//        return null;
-//    }
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsByCapitalizationRange(FinanceInstrumentRequestDTO filter){
+        return financeInstrumentRepository.findFinanceInstrumentsByCapitalizationRange(
+                Float.parseFloat(filter.getCapitalizationFrom()),
+                Float.parseFloat(filter.getCapitalizationUpTo())
+        );
+    }
+
+    private List<FinanceInstrumentEntity> findFinanceInstrumentsByTradingVolumeRange(FinanceInstrumentRequestDTO filter){
+        return financeInstrumentRepository.findFinanceInstrumentsByTradingVolumeRange(
+                Float.parseFloat(filter.getVolumeFrom()), Float.parseFloat(filter.getVolumeUpTo())
+        );
+    }
 
 }
+
