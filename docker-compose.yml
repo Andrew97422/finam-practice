@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+      args:
+        DB_HOST: ${DB_HOST}
+        DB_PORT: ${DB_PORT}
+        DB_PASSWORD: ${DB_PASSWORD}
+        DB_USERNAME: ${DB_USERNAME}
+        DB_NAME: ${DB_NAME}
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "8080:8080"
+  front:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - backend
