@@ -1,7 +1,7 @@
 FROM maven:3.8.4-openjdk-17 as build
 
 RUN mkdir -p ~/.postgresql
-RUN apk add --update wget
+RUN apt install wget
 RUN wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" --output-document ~/.postgresql/root.crt
 RUN chmod 0600 ~/.postgresql/root.crt
 
