@@ -1,4 +1,4 @@
-FROM docker.io/library/maven:3.9.8-amazoncorretto-17 as build
+FROM docker.io/library/maven:3.9.8 as build
 
 RUN apt update && apt install wget -y
 RUN mkdir -p ~/.postgresql
