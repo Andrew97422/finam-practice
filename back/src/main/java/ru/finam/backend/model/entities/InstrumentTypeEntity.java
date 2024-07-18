@@ -1,15 +1,18 @@
 package ru.finam.backend.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "instrument_types")
 public class InstrumentTypeEntity {
@@ -22,5 +25,6 @@ public class InstrumentTypeEntity {
     private String name;
 
     @OneToMany(mappedBy = "instrumentType")
+    @ToString.Exclude
     private List<FinanceInstrumentEntity> financeInstrumentList;
 }

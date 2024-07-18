@@ -1,16 +1,18 @@
 package ru.finam.backend.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "firms")
 public class FirmEntity {
@@ -33,5 +35,6 @@ public class FirmEntity {
     private float capitalization;
 
     @OneToMany(mappedBy = "firm")
+    @ToString.Exclude
     private List<FinanceInstrumentEntity> financeInstruments;
 }

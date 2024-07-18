@@ -1,16 +1,19 @@
 package ru.finam.backend.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "sectors")
 public class SectorEntity {
     @Id
@@ -22,5 +25,6 @@ public class SectorEntity {
     private String name;
 
     @OneToMany(mappedBy = "sector")
+    @ToString.Exclude
     private List<FirmEntity> firmList;
 }

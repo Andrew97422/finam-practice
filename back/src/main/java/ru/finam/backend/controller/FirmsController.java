@@ -24,7 +24,7 @@ import ru.finam.backend.service.FinanceInstrumentService;
 @Slf4j
 public class FirmsController {
 
-    private final    FinanceInstrumentService financeInstrumentService;
+    private final FinanceInstrumentService financeInstrumentService;
 
     @Operation(
             summary = "Получение инструментов",
