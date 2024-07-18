@@ -1,6 +1,7 @@
 package ru.finam.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +30,11 @@ public class FirmsController {
             summary = "Получение инструментов",
             description = "Получения инструментов по фильтрам"
     )
-    @GetMapping("/finance_instruments")
+    @PostMapping("/finance_instruments/{offset}/{limit}")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
-            @PathVariable FinanceInstrumentRequestDTO filter,
-            @PathVariable int offset,
-            @PathVariable int limit
+            @RequestBody FinanceInstrumentRequestDTO filter,
+            @PathVariable @Parameter(name = "Смещение") int offset,
+            @PathVariable @Parameter(name = "Количество записей") int limit
 
     ) {
         try {
