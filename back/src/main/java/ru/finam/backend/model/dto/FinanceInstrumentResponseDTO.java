@@ -27,4 +27,5 @@ public class FinanceInstrumentResponseDTO {
 
     @Schema(description = "Ср. объем торгов", name = "averageTradingVolume")
     private float averageTradingVolume;
+
 }
