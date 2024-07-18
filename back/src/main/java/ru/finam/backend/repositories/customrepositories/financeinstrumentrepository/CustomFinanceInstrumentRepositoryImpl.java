@@ -18,7 +18,7 @@ public class CustomFinanceInstrumentRepositoryImpl implements CustomFinanceInstr
         FinanceInstrumentRequestDTO dto) {
 
         String baseQuery =
-            "SELECT fi.* FROM finance_instruments fi JOIN firms f ON f.firm_id = fi.firm_id"
+            "FROM finance_instruments fi JOIN firms f ON f.firm_id = fi.firm_id"
                 + " JOIN sectors s ON s.sector_id = f.sector_id JOIN instrument_types it ON"
                 + " it.instrument_type_id = fi.instrument_type_id WHERE";
 
