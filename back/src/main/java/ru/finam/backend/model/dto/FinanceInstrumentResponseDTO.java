@@ -15,4 +15,5 @@ public class FinanceInstrumentResponseDTO {
     private float price;
     private float capitalization;
     private float averageTradingVolume;
+
 }

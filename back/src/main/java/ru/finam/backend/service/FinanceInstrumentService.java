@@ -19,7 +19,6 @@ public class FinanceInstrumentService {
   private final FinanceInstrumentRepository financeInstrumentRepository;
   private final ApplicationUtils applicationUtils;
 
-
   public Page<FinanceInstrumentResponseDTO> getFinanceInstruments(
       FinanceInstrumentRequestDTO filter, int offset, int limit) {
 
@@ -60,7 +59,6 @@ public class FinanceInstrumentService {
     return tickerName.isEmpty() ? financeInstrumentRepository.findAll()
         : financeInstrumentRepository.findFinanceInstrumentsByNameOrTicker(tickerName, tickerName);
   }
-
 
   private List<FinanceInstrumentEntity> filterInstrumentsBySectorType(String type,
       List<FinanceInstrumentEntity> l) {
