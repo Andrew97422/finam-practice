@@ -1,4 +1,5 @@
-FROM maven:3.8.4-openjdk-17 as build
+#FROM maven:3.8.4-openjdk-17 as build
+FROM maven:3.9.8-amazoncorretto-17-debian
 
 RUN apt update && apt install wget -y
 RUN mkdir -p ~/.postgresql
