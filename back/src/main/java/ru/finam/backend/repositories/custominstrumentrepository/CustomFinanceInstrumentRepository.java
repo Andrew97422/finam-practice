@@ -5,6 +5,5 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 
 public interface CustomFinanceInstrumentRepository {
-      List<FinanceInstrumentEntity> findFinanceInstruments(String query,
-          FinanceInstrumentRequestDTO dto);
+      List<FinanceInstrumentEntity> findFinanceInstruments(FinanceInstrumentRequestDTO dto);
 }

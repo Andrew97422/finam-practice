@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 
 import java.util.List;
-import ru.finam.backend.repositories.customfirepository.CustomFinanceInstrumentRepository;
+import ru.finam.backend.repositories.custominstrumentrepository.CustomFinanceInstrumentRepository;
 
 @Repository
 public interface FinanceInstrumentRepository extends
