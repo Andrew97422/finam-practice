@@ -1,5 +1,5 @@
 #FROM maven:3.8.4-openjdk-17 as build
-FROM maven:3.9.8-eclipse-temurin-17
+FROM maven:3.9.8-amazoncorretto-17
 
 RUN apt update && apt install wget -y
 RUN mkdir -p ~/.postgresql
