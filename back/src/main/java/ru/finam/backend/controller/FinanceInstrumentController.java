@@ -22,7 +22,7 @@ import ru.finam.backend.service.FinanceInstrumentService;
         name = "Контроллер скринера"
 )
 @Slf4j
-public class FirmsController {
+public class FinanceInstrumentController {
 
     private final FinanceInstrumentService financeInstrumentService;
 
