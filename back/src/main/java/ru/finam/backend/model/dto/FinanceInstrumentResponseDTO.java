@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(name = "Таблица с данными по компаниям")
+@Schema(name = "Инструменты")
 public class FinanceInstrumentResponseDTO {
 
     @Schema(description = "Тикер", name = "ticker")
