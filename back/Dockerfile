@@ -1,5 +1,12 @@
 FROM maven:3.8.4-openjdk-17 as build
 
+RUN <<EOF
+mkdir -p ~/.postgresql && \
+wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" \
+     --output-document ~/.postgresql/root.crt && \
+chmod 0600 ~/.postgresql/root.crt
+EOF
+
 ARG DB_URL
 ARG DB_PASSWORD
 ARG DB_USERNAME
