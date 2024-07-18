@@ -5,9 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import ru.finam.backend.model.entities.SectorEntity;
 
-import java.util.Optional;
 
 @Repository
 public interface SectorRepository extends JpaRepository<SectorEntity, Integer> {
-    Optional<SectorEntity> findByName(String name);
+
 }
