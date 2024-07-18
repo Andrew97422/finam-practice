@@ -2,7 +2,7 @@ FROM docker.io/library/maven:3.9.8 as build
 
 RUN apt update && apt install wget -y
 RUN mkdir -p ~/.postgresql
-RUN wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" --output-document ~/.postgresql/root.crt
+RUN wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" > ~/.postgresql/root.crt
 RUN chmod 0600 ~/.postgresql/root.crt
 
 ARG DB_URL
