@@ -1,4 +1,5 @@
-FROM maven:3.8.4-openjdk-17 as build
+#FROM maven:3.8.4-openjdk-17 as build
+FROM openjdk:17-jdk-slim AS build
 
 RUN mkdir -p ~/.postgresql
 RUN wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" --output-document ~/.postgresql/root.crt
