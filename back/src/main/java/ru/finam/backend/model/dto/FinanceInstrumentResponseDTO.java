@@ -13,19 +13,19 @@ import lombok.NoArgsConstructor;
 @Schema(name = "Инструменты")
 public class FinanceInstrumentResponseDTO {
 
-    @Schema(description = "Тикер", name = "ticker")
+    @Schema(description = "Тикер", name = "ticker", example = "SBER")
     private String ticker;
 
-    @Schema(description = "Наименование", name = "name")
+    @Schema(description = "Наименование", name = "name", example = "Сбербанк")
     private String name;
 
-    @Schema(description = "Цена", name = "price")
+    @Schema(description = "Цена", name = "price", example = "320.20")
     private float price;
 
-    @Schema(description = "Капитализация", name = "capitalization")
+    @Schema(description = "Капитализация", name = "capitalization", example = "7000000000")
     private float capitalization;
 
-    @Schema(description = "Ср. объем торгов", name = "averageTradingVolume")
+    @Schema(description = "Ср. объем торгов", name = "averageTradingVolume", example = "0.5")
     private float averageTradingVolume;
 
 }
