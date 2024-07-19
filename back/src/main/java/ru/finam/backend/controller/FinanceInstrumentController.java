@@ -45,8 +45,7 @@ public class FinanceInstrumentController {
                     content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"Данной страницы не существует\", \"debugMessage\":\"Данной страницы не существует\"}") })),
             @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
                     content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"В данное поле неккоретно введены данные: негативные числа, буквы в поля для чисел и т.д.\"}") })),
-            @ApiResponse(responseCode = "200", description = "ОК",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"totalPages\": \"1\", \"totalElements\":\"2\", \"size\":\"10\", \"message\": \"И так далее\"}") }))
+            @ApiResponse(responseCode = "200", description = "ОК")
     })
     @PostMapping("/finance_instruments/{offset}/{limit}")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
