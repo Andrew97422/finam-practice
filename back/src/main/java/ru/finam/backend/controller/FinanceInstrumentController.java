@@ -42,9 +42,14 @@ public class FinanceInstrumentController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "Не найдено",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"Данной страницы не существует\", \"debugMessage\":\"Данной страницы не существует\"}") })),
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject(
+                            value = "{\"message\": \"Данной страницы не существует\", \"debugMessage\":\"" +
+                                    "Данной страницы не существует\"}") })),
             @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"В данное поле неккоретно введены данные: негативные числа, буквы в поля для чисел и т.д.\"}") })),
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject(
+                            value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"" +
+                                    "В данное поле неккоретно введены данные: негативные числа," +
+                                    " буквы в поля для чисел и т.д.\"}") })),
             @ApiResponse(responseCode = "200", description = "ОК")
     })
     @PostMapping("/finance_instruments/{offset}/{limit}")
