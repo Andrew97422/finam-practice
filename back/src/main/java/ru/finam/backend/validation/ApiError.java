@@ -1,4 +1,4 @@
-package ru.finam.backend.controller.exceptionhandler;
+package ru.finam.backend.validation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
