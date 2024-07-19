@@ -38,12 +38,12 @@ public class FinanceInstrumentController {
             description = "Получения инструментов по фильтрам"
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "404", description = "Данной страницы не существует",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"name\": \"pong\", \"description\":\"test\"}") })),
+            @ApiResponse(responseCode = "404", description = "Не найдено",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"Данной страницы не существует\", \"debugMessage\":\"Данной страницы не существует\"}") })),
             @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"name\": \"pong\", \"description\":\"test\"}") })),
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"В данное поле неккоретно введены данные: негативные числа, буквы в поля для чисел и т.д.\"}") })),
             @ApiResponse(responseCode = "200", description = "ОК",
-                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"name\": \"pong\", \"description\":\"test\"}") }))
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"totalPages\": \"1\", \"totalElements\":\"2\", \"size\":\"10\", \"message\": \"И так далее\"}") }))
     })
     @PostMapping("/finance_instruments/{offset}/{limit}")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
@@ -51,11 +51,11 @@ public class FinanceInstrumentController {
 
             @PathVariable @Parameter(description = "Смещение")
             @Min(0) @Max(Integer.MAX_VALUE)
-            @RequestParam(required = true, defaultValue = "0", name = "offset") int offset,
+            @RequestParam(defaultValue = "0", name = "offset") int offset,
 
             @PathVariable @Parameter(description = "Количество записей")
             @Min(0) @Max(100)
-            @RequestParam(required = true, defaultValue = "0", name = "limit") int limit
+            @RequestParam(defaultValue = "0", name = "limit") int limit
 
     ) {
         try {
