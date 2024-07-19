@@ -62,7 +62,7 @@ public class FinanceInstrumentController {
 
             @PathVariable @Parameter(description = "Количество записей")
             @Min(1) @Max(100)
-            @RequestParam(defaultValue = "0", name = "limit") int limit
+            @RequestParam(defaultValue = "1", name = "limit") int limit
 
     ) {
         try {
