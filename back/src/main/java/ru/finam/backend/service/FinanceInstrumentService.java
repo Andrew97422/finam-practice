@@ -3,6 +3,7 @@ package ru.finam.backend.service;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class FinanceInstrumentService {
     private final FinanceInstrumentRepository financeInstrumentRepository;
     private final ApplicationUtils  applicationUtils;
 
+    @Cacheable(cacheNames = "finance_instrument", key = "#filter")
     public Page<FinanceInstrumentResponseDTO> getFinanceInstruments(
         FinanceInstrumentRequestDTO filter, int offset, int limit) {
 

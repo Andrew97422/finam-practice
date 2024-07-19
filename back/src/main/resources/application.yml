@@ -33,3 +33,8 @@ spring:
       ddl-auto: update #create-drop
     open-in-view: true
     defer-datasource-initialization: true
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379
