@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.finam.backend.exceptions.IllegalPageLimitException;
+import ru.finam.backend.exceptions.PageIndexOutOfBoundException;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 import ru.finam.backend.model.entities.FirmEntity;
@@ -36,13 +38,20 @@ public class ApplicationUtils {
 
     public Page<FinanceInstrumentResponseDTO> convertListToPage(
         List<FinanceInstrumentResponseDTO> list,
-        int offset, int limit) {
+        int offset, int limit) throws IndexOutOfBoundsException, IllegalArgumentException {
+
+        if (offset < 0 || offset * limit >= list.size())
+            throw new PageIndexOutOfBoundException(offset);
+        if (limit < 1)
+            throw new IllegalPageLimitException(limit);
+
         Pageable pageRequest = PageRequest.of(offset, limit);
 
         int start = (int) pageRequest.getOffset();
-        int end = start + pageRequest.getPageSize();
+        int end = Math.min(start + pageRequest.getPageSize(), list.size());
 
         List<FinanceInstrumentResponseDTO> pageContent = list.subList(start, end);
+
         return new PageImpl<>(pageContent, pageRequest, list.size());
     }
 
