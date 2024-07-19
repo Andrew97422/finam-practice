@@ -2,6 +2,8 @@ package ru.finam.backend.model.entities;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
@@ -32,7 +36,7 @@ public class FirmEntity {
     private SectorEntity sector;
 
     @Column(name = "capitalization")
-    private float capitalization;
+    private double capitalization;
 
     @OneToMany(mappedBy = "firm")
     @ToString.Exclude

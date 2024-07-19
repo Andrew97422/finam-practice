@@ -3,6 +3,8 @@ package ru.finam.backend.model.entities;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +14,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "finance_instruments")
@@ -30,8 +34,8 @@ public class FinanceInstrumentEntity {
     private InstrumentTypeEntity instrumentType;
 
     @Column(name = "average_trading_volume")
-    private float averageTradingVolume;
+    private double averageTradingVolume;
 
     @Column(name = "price")
-    private float price;
+    private double price;
 }

@@ -4,9 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,12 +25,12 @@ public class FinanceInstrumentResponseDTO {
     private String name;
 
     @Schema(description = "Цена", name = "price", example = "320.20")
-    private float price;
+    private double price;
 
     @Schema(description = "Капитализация", name = "capitalization", example = "7000000000")
-    private float capitalization;
+    private double capitalization;
 
     @Schema(description = "Ср. объем торгов", name = "averageTradingVolume", example = "0.5")
-    private float averageTradingVolume;
+    private double averageTradingVolume;
 
 }
