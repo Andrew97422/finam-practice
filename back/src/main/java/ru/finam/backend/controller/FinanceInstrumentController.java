@@ -2,8 +2,13 @@ package ru.finam.backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +40,26 @@ public class FinanceInstrumentController {
             summary = "Получение инструментов",
             description = "Получения инструментов по фильтрам"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "404", description = "Не найдено",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"Данной страницы не существует\", \"debugMessage\":\"Данной страницы не существует\"}") })),
+            @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"В данное поле неккоретно введены данные: негативные числа, буквы в поля для чисел и т.д.\"}") })),
+            @ApiResponse(responseCode = "200", description = "ОК",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject( value = "{\"totalPages\": \"1\", \"totalElements\":\"2\", \"size\":\"10\", \"message\": \"И так далее\"}") }))
+    })
     @PostMapping("/finance_instruments/{offset}/{limit}")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
-            @PathVariable @Parameter(description = "Смещение") @Min(0) int offset,
-            @PathVariable @Parameter(description = "Количество записей") @Min(1) int limit,
-            @Valid @RequestBody FinanceInstrumentRequestDTO filter
+            @Valid @RequestBody FinanceInstrumentRequestDTO filter,
+
+            @PathVariable @Parameter(description = "Смещение")
+            @Min(0) @Max(Integer.MAX_VALUE)
+            @RequestParam(defaultValue = "0", name = "offset") int offset,
+
+            @PathVariable @Parameter(description = "Количество записей")
+            @Min(0) @Max(100)
+            @RequestParam(defaultValue = "0", name = "limit") int limit
+
     ) {
         try {
             Page<FinanceInstrumentResponseDTO> response = financeInstrumentService.getFinanceInstruments(filter, offset, limit);
