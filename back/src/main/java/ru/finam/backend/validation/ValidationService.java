@@ -9,7 +9,7 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 public class ValidationService {
 
     public void checkOffsetAndLimitAreValid(int offset, int limit, int listSize){
-        if (offset < 0 || offset * limit >= listSize)
+        if (offset < 0 || (offset * limit >= listSize && listSize != 0) )
             throw new PageIndexOutOfBoundException(offset);
         if (limit < 1)
             throw new IllegalPageLimitException(limit);
