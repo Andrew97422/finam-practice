@@ -21,7 +21,8 @@ public class FinanceInstrumentService {
     private final ApplicationUtils  applicationUtils;
 
     public Page<FinanceInstrumentResponseDTO> getFinanceInstruments(
-        FinanceInstrumentRequestDTO filter, int offset, int limit) {
+        FinanceInstrumentRequestDTO filter, int offset, int limit) throws IllegalArgumentException,
+                IndexOutOfBoundsException{
 
         // Получение списка отфильтрованных сущностей из БД
         List<FinanceInstrumentEntity> entitylist =
