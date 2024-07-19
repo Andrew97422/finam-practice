@@ -30,31 +30,31 @@ public class FinanceInstrumentRequestDTO {
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Цена от", name = "priceFrom", example = "0")
-    private float priceFrom;
+    private double priceFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Цена до", name = "priceUpTo", example = "300000")
-    private float priceUpTo;
+    private double priceUpTo;
 
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Капитализация от", name = "capitalizationFrom", example = "0")
-    private float capitalizationFrom;
+    private double capitalizationFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Капитализация до", name = "capitalizationUpTo", example = "7000000000000")
-    private float capitalizationUpTo;
+    private double capitalizationUpTo;
 
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Средний объем торгов от", name = "volumeFrom", example = "0")
-    private float volumeFrom;
+    private double volumeFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Средний объем торгов до", name = "volumeUpTo", example = "1")
-    private float volumeUpTo;
+    private double volumeUpTo;
 
 }
