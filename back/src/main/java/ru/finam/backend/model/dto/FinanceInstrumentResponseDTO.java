@@ -3,7 +3,7 @@ package ru.finam.backend.model.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,12 +25,12 @@ public class FinanceInstrumentResponseDTO {
     private String name;
 
     @Schema(description = "Цена", name = "price", example = "320.20")
-    private double price;
+    private float price;
 
     @Schema(description = "Капитализация", name = "capitalization", example = "7000000000")
-    private double capitalization;
+    private float capitalization;
 
     @Schema(description = "Ср. объем торгов", name = "averageTradingVolume", example = "0.5")
-    private double averageTradingVolume;
+    private float averageTradingVolume;
 
 }

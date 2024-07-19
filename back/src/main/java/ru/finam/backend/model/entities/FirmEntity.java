@@ -36,7 +36,7 @@ public class FirmEntity {
     private SectorEntity sector;
 
     @Column(name = "capitalization")
-    private double capitalization;
+    private float capitalization;
 
     @OneToMany(mappedBy = "firm")
     @ToString.Exclude

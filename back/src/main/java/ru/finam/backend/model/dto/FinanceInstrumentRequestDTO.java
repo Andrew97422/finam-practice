@@ -3,12 +3,10 @@ package ru.finam.backend.model.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,31 +28,31 @@ public class FinanceInstrumentRequestDTO {
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Цена от", name = "priceFrom", example = "0")
-    private double priceFrom;
+    private float priceFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Цена до", name = "priceUpTo", example = "300000")
-    private double priceUpTo;
+    private float priceUpTo;
 
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Капитализация от", name = "capitalizationFrom", example = "0")
-    private double capitalizationFrom;
+    private float capitalizationFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Капитализация до", name = "capitalizationUpTo", example = "7000000000000")
-    private double capitalizationUpTo;
+    private float capitalizationUpTo;
 
     @PositiveOrZero
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Средний объем торгов от", name = "volumeFrom", example = "0")
-    private double volumeFrom;
+    private float volumeFrom;
 
     @Positive
     @Digits(integer = 30,fraction = 8)
     @Schema(description = "Средний объем торгов до", name = "volumeUpTo", example = "1")
-    private double volumeUpTo;
+    private float volumeUpTo;
 
 }

@@ -34,8 +34,8 @@ public class FinanceInstrumentEntity {
     private InstrumentTypeEntity instrumentType;
 
     @Column(name = "average_trading_volume")
-    private double averageTradingVolume;
+    private float averageTradingVolume;
 
     @Column(name = "price")
-    private double price;
+    private float price;
 }

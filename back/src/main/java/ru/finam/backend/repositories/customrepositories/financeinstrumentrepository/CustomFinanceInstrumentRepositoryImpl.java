@@ -45,14 +45,14 @@ public class CustomFinanceInstrumentRepositoryImpl implements CustomFinanceInstr
                 .id((Integer)row[4])
                 .name((String)row[5])
                 .ticker((String)row[6])
-                .capitalization((double)row[8])
+                .capitalization((float)row[8])
                 .sector(s)
                 .build();
 
             FinanceInstrumentEntity fi = FinanceInstrumentEntity.builder()
                 .id((Integer)row[9])
-                .price((double)row[12])
-                .averageTradingVolume((double)row[13])
+                .price((float)row[12])
+                .averageTradingVolume((float)row[13])
                 .instrumentType(it)
                 .firm(f)
                 .build();
