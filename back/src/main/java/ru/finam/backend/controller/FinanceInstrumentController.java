@@ -56,7 +56,7 @@ public class FinanceInstrumentController {
             @RequestParam(defaultValue = "0", name = "offset") int offset,
 
             @PathVariable @Parameter(description = "Количество записей")
-            @Min(0) @Max(100)
+            @Min(1) @Max(100)
             @RequestParam(defaultValue = "0", name = "limit") int limit
 
     ) {
