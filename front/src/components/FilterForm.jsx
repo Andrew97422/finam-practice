@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import SearchInput from "./inputs/SearchInput";
 import Selector from "./inputs/Selector";
 import NumberInput from "./inputs/NumberInput";
@@ -21,38 +20,18 @@ const FilterForm = ({ onFilterChange }) => {
 		},
 	});
 
-	const { handleSubmit, watch } = methods;
-	const formValues = watch();
-	const debounceRef = useRef(null);
-	const prevFormValuesRef = useRef(formValues);
+	const { handleSubmit } = methods;
 
-	const debouncedSubmit = useCallback(
-		(data) => {
-			// Debounce function
-			if (debounceRef.current) {
-				clearTimeout(debounceRef.current);
-			}
-			debounceRef.current = setTimeout(() => {
-				onFilterChange(data);
-			}, 300);
-		},
-		[onFilterChange]
-	);
-
-	useEffect(() => {
-		const hasFormChanged =
-			JSON.stringify(prevFormValuesRef.current) !==
-			JSON.stringify(formValues);
-
-		if (hasFormChanged) {
-			prevFormValuesRef.current = formValues;
-			handleSubmit(debouncedSubmit)();
-		}
-	}, [formValues, handleSubmit, debouncedSubmit]);
+	const onSubmit = (data) => {
+		onFilterChange(data);
+	};
 
 	return (
 		<FormProvider {...methods}>
-			<form className="flex flex-col gap-4 h-full">
+			<form
+				className="flex flex-col gap-4 h-full"
+				onSubmit={handleSubmit(onSubmit)}
+			>
 				<SearchInput name="tickername" />
 				<h2 className="text-main">Тип инструмента:</h2>
 				<Selector
@@ -102,52 +81,51 @@ const FilterForm = ({ onFilterChange }) => {
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="priceFrom" min={0} max={300000} />
+						<NumberInput name="priceFrom" min={0} />
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="priceUpTo" min={0} max={300000} />
+						<NumberInput name="priceUpTo" min={0} />
 					</div>
 				</div>
 				<h2 className="text-main">Капитализация:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput
-							name="capitalizationFrom"
-							min={0}
-							max={7000000000000}
-						/>
+						<NumberInput name="capitalizationFrom" min={0} />
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput
-							name="capitalizationUpTo"
-							min={0}
-							max={7000000000000}
-						/>
+						<NumberInput name="capitalizationUpTo" min={0} />
 					</div>
 				</div>
 				<h2 className="text-main">Средний объем торгов:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput
-							name="volumeFrom"
-							min={0}
-							max={1}
-							step={0.01}
-						/>
+						<NumberInput name="volumeFrom" min={0} />
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput
-							name="volumeUpTo"
-							min={0}
-							max={1}
-							step={0.01}
-						/>
+						<NumberInput name="volumeUpTo" min={0} />
 					</div>
+				</div>
+				<div className="flex flex-row justify-around">
+					<button
+						type="submit"
+						className="rounded-xl bg-[#489DA5] hover:bg-[#397c82] active:bg-[#2b5f64] text-white font-roboto px-4 py-2"
+					>
+						Применить
+					</button>
+					<button
+						type="button"
+						className="rounded-xl bg-[#D3DDDE] hover:bg-[#a8b0b1] active:bg-[#7a8080] font-roboto px-4 py-2"
+						onClick={() => {
+							methods.reset();
+						}}
+					>
+						Сбросить
+					</button>
 				</div>
 				{/* <DevTool control={methods.control} /> */}
 			</form>
