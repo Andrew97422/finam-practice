@@ -13,7 +13,6 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -52,17 +51,20 @@ public class FinanceInstrumentController {
                                     " буквы в поля для чисел и т.д.\"}") })),
             @ApiResponse(responseCode = "200", description = "ОК")
     })
-    @PostMapping("/finance_instruments/{offset}/{limit}")
+    @PostMapping("/finance_instruments")
     public ResponseEntity<Page<FinanceInstrumentResponseDTO>> getFinanceInstruments(
             @Valid @RequestBody FinanceInstrumentRequestDTO filter,
 
-            @PathVariable @Parameter(description = "Смещение")
+            @Parameter(description = "Смещение")
             @Min(0) @Max(Integer.MAX_VALUE)
-            @RequestParam(defaultValue = "0", name = "offset") int offset,
+            @RequestParam(defaultValue = "0")
+            int offset,
 
-            @PathVariable @Parameter(description = "Количество записей")
+
+            @Parameter(description = "Количество записей")
             @Min(1) @Max(100)
-            @RequestParam(defaultValue = "1", name = "limit") int limit
+            @RequestParam(defaultValue = "10")
+            int limit
 
     ) {
         try {
