@@ -24,3 +24,19 @@ services:
     restart: always
     depends_on:
       - backend
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./config/:/etc/prometheus/
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    depends_on:
+      - backend
+    restart: always
+volumes:
+  prometheus_data: {}

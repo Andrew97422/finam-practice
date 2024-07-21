@@ -33,3 +33,19 @@ spring:
       ddl-auto: update #create-drop
     open-in-view: true
     defer-datasource-initialization: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+      probes:
+        enabled: true
