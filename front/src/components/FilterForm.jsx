@@ -3,34 +3,34 @@ import { useForm, FormProvider } from "react-hook-form";
 import SearchInput from "./inputs/SearchInput";
 import Selector from "./inputs/Selector";
 import NumberInput from "./inputs/NumberInput";
+import { useMainContext } from "../contexts/MainContext";
 
-const FilterForm = ({ onFilterChange }) => {
+const FilterForm = () => {
 	const methods = useForm({
 		mode: "onChange",
 		defaultValues: {
 			tickerName: "",
 			type: "Акции",
 			sector: "Финансы",
-			priceFrom: "0",
-			priceUpTo: "300000",
-			capitalizationFrom: "0",
-			capitalizationUpTo: "7000000000000",
-			volumeFrom: "0",
-			volumeUpTo: "1000000",
+			priceFrom: 0,
+			priceUpTo: 300000,
+			capitalizationFrom: 0,
+			capitalizationUpTo: 7000000000000,
+			volumeFrom: 0,
+			volumeUpTo: 1000000,
 		},
 	});
 
-	const { handleSubmit } = methods;
-
+	const { setFilters } = useMainContext();
 	const onSubmit = (data) => {
-		onFilterChange(data);
+		setFilters(data);
 	};
 
 	return (
 		<FormProvider {...methods}>
 			<form
 				className="flex flex-col gap-4 h-full"
-				onSubmit={handleSubmit(onSubmit)}
+				onSubmit={methods.handleSubmit(onSubmit)}
 			>
 				<SearchInput name="tickerName" />
 				<h2 className="text-main">Тип инструмента:</h2>

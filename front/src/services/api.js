@@ -20,19 +20,33 @@ export const fetchData = async (filters, offset, limit) => {
 				},
 			}
 		);
+
 		return {
 			success: true,
-			data: response.data,
+			data: response.data.content,
+			totalElements: response.data.totalElements,
 		};
 	} catch (error) {
-		console.error(
-			"Не удалось связаться с бекендом:",
-			error.message || error
-		);
+		if (error.response) {
+			// Сервер ответил статусом, отличным от 2xx
+			console.error("Ошибка ответа сервера:", error.response.data);
+			console.error("Статус ответа:", error.response.status);
+		} else if (error.request) {
+			// Запрос был сделан, но ответа не получено
+			console.error(
+				"Запрос был сделан, но ответа не получено",
+				error.request
+			);
+		} else {
+			// Произошло что-то при настройке запроса, вызвавшее ошибку
+			console.error("Ошибка настройки запроса:", error.message);
+		}
 
 		return {
 			success: false,
-			error: error.message || "Не удалось подключиться к бекенду",
+			error: error.response
+				? error.response.data.message
+				: "Не удалось подключиться к бекенду",
 		};
 	}
 };

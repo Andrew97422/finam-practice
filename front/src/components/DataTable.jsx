@@ -1,175 +1,38 @@
 import React, { useMemo, useState, useEffect } from "react";
 import {
+	useMaterialReactTable,
 	MRT_Table,
 	MRT_TablePagination,
-	useMaterialReactTable,
 } from "material-react-table";
 import { Box } from "@mui/material";
 import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import CustomSortIcon from "./icons/CustomSortIcon.jsx";
-
-// Пример данных, обычно такие данные загружают с API
-const initialData = [
-	{
-		ticker: "MTSS",
-		name: "МТС",
-		price: 218.0,
-		capitalization: "540460000000",
-		volume: "0.5",
-	},
-	{
-		ticker: "ACKO",
-		name: "ACKO",
-		price: 3252.0,
-		capitalization: "-",
-		volume: "0.5",
-	},
-	{
-		ticker: "KTSB",
-		name: "КСК",
-		price: 0.66,
-		capitalization: "2470000000",
-		volume: "0.5",
-	},
-	{
-		ticker: "NTZL",
-		name: "НИТЕЛ",
-		price: 40.03,
-		capitalization: "-",
-		volume: "0.5",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-	{
-		ticker: "Lorem",
-		name: "Imsum",
-		price: 0.0,
-		capitalization: "Sit",
-		volume: "Qwe",
-	},
-];
+import { fetchData } from "../services/api.js";
+import { useMainContext } from "../contexts/MainContext.jsx";
 
 const DataTable = () => {
+	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
+	const [totalRows, setTotalRows] = useState(0);
 	const [data, setData] = useState([]);
 
-	// Используем useEffect для загрузки данных при монтировании компонента
+	const { filters } = useMainContext();
+
+	// Эта функция загружает данные с сервера
+	const loadData = async () => {
+		const result = await fetchData(
+			filters,
+			pagination.pageIndex,
+			pagination.pageSize
+		);
+		console.log(result);
+		setData(result.data);
+		setTotalRows(result.totalElements);
+	};
+
 	useEffect(() => {
-		// Задержка для эмуляции загрузки данных
-		setTimeout(() => {
-			setData(initialData);
-		}, 1000);
-	}, []);
+		loadData();
+	}, [filters, pagination.pageIndex, pagination.pageSize]);
 
 	const columns = useMemo(
 		() => [
@@ -201,7 +64,7 @@ const DataTable = () => {
 				muiTableHeadCellProps: { align: "center" },
 			},
 			{
-				accessorKey: "volume",
+				accessorKey: "averageTradingVolume",
 				header: "Ср. объем торгов",
 				size: 150,
 				enableSorting: false,
@@ -213,7 +76,10 @@ const DataTable = () => {
 
 	const table = useMaterialReactTable({
 		columns,
-		data,
+		data: data || [],
+		onPaginationChange: setPagination,
+		state: { pagination },
+		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
 		enableRowSelection: false,
 		enableColumnOrdering: false,
 		enableGlobalFilter: false,
@@ -222,8 +88,7 @@ const DataTable = () => {
 		enableColumnFilters: true,
 		enableColumnVisibility: false,
 		enableFullScreenToggle: false,
-		enablePagination: true,
-		initialState: { pagination: { pageSize: 5 } },
+		manualPagination: true,
 		muiTableHeadCellProps: {
 			sx: {
 				backgroundColor: "#ABD5D6",
@@ -245,26 +110,33 @@ const DataTable = () => {
 			},
 		},
 		muiTableBodyRowProps: { hover: false },
-
 		localization: MRT_Localization_RU,
-
 		muiPaginationProps: {
 			showFirstButton: false,
 			showLastButton: false,
 			sx: {
 				backgroundColor: "#72d4cc",
 				display: "flex",
-				justifyContent: "flex-end", // Выравниваем пагинацию по правой стороне
+				justifyContent: "flex-end",
 			},
 		},
-
 		icons: {
-			ArrowDownwardIcon: (props) => {
-				return <CustomSortIcon {...props} />;
-			},
+			ArrowDownwardIcon: (props) => <CustomSortIcon {...props} />,
 			SyncAltIcon: () => <FilterListOffIcon />,
 		},
 	});
+
+	const handlePageChange = (event, newPage) => {
+		setPagination((prev) => ({ ...prev, pageIndex: newPage }));
+	};
+
+	const handleRowsPerPageChange = (event) => {
+		setPagination((prev) => ({
+			...prev,
+			pageSize: parseInt(event.target.value, 10),
+			pageIndex: 0, // Сброс страницы на 0 при изменении размера
+		}));
+	};
 
 	return (
 		<Box>
@@ -275,7 +147,15 @@ const DataTable = () => {
 				alignItems="center"
 				mt={2}
 			>
-				<MRT_TablePagination table={table} />
+				<MRT_TablePagination
+					table={table}
+					page={pagination.pageIndex}
+					count={Math.ceil(totalRows / pagination.pageSize)}
+					onPageChange={handlePageChange}
+					rowsPerPage={pagination.pageSize}
+					onRowsPerPageChange={handleRowsPerPageChange}
+					rowCount={totalRows}
+				/>
 			</Box>
 		</Box>
 	);

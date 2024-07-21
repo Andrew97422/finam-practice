@@ -3,7 +3,7 @@ import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
-const SideBar = ({ onFilterChange }) => {
+const SideBar = () => {
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 
 	const toggleSidebar = () => {
@@ -27,7 +27,7 @@ const SideBar = ({ onFilterChange }) => {
 				style={{ width: "300px" }}
 			>
 				<div className="p-4">
-					<FilterForm onFilterChange={onFilterChange} />
+					<FilterForm />
 				</div>
 			</div>
 		</aside>
