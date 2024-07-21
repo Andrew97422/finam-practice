@@ -10,7 +10,7 @@ import { MRT_Localization_RU } from "material-react-table/locales/ru";
 import FilterListOffIcon from "@mui/icons-material/FilterListOff";
 import CustomSortIcon from "./icons/CustomSortIcon.jsx";
 
-const fetchData = async (pageIndex, pageSize) => {
+const fetchData = async (pageIndex, pageSize, sorting) => {
   const response = await axios.get(
     `https://jsonplaceholder.typicode.com/todos`
   );
@@ -20,6 +20,7 @@ const fetchData = async (pageIndex, pageSize) => {
   );
   console.log(pageIndex)
   console.log(pageSize)
+  console.log(sorting)
   return {
     data: filteredData,
     total: 200,
@@ -33,15 +34,16 @@ const DataTable1 = () => {
   });
   const [totalRows, setTotalRows] = useState(0);
   const [data, setData] = useState([]);
+  const [sorting, setSorting] = useState([]);
 
   useEffect(() => {
     const loadData = async () => {
-      const result = await fetchData(pagination.pageIndex, pagination.pageSize);
+      const result = await fetchData(pagination.pageIndex, pagination.pageSize, sorting);
       setData(result.data);
       setTotalRows(result.total);
     };
     loadData();
-  }, [pagination.pageIndex, pagination.pageSize]);
+  }, [pagination.pageIndex, pagination.pageSize, sorting]);
 
   const columns = useMemo(
     () => [
@@ -80,6 +82,7 @@ const DataTable1 = () => {
     columns,
     data,
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
 
     // onPaginationChange: (pagination) => {
     //   setPagination((prev) => ({
@@ -90,6 +93,7 @@ const DataTable1 = () => {
 
     state: {
       pagination,
+      sorting,
     },
 
     rowCount: totalRows,
@@ -102,6 +106,7 @@ const DataTable1 = () => {
     enableColumnVisibility: false,
     enableFullScreenToggle: false,
     manualPagination: true,
+    manualSorting: true,
     //enablePagination: true,
     muiTableHeadCellProps: {
       sx: {
