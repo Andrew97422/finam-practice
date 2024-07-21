@@ -18,7 +18,6 @@ const DataTable = () => {
 
 	const { filters } = useMainContext();
 
-	// Эта функция загружает данные с сервера
 	const loadData = async () => {
 		const result = await fetchData(
 			filters,

@@ -13,11 +13,11 @@ const FilterForm = () => {
 			type: "Акции",
 			sector: "Финансы",
 			priceFrom: 0,
-			priceUpTo: 300000,
+			priceUpTo: 3000000000,
 			capitalizationFrom: 0,
 			capitalizationUpTo: 7000000000000,
 			volumeFrom: 0,
-			volumeUpTo: 1000000,
+			volumeUpTo: 100000000000,
 		},
 	});
 

@@ -11,7 +11,7 @@ import axios from "axios";
 export const fetchData = async (filters, offset, limit) => {
 	try {
 		const response = await axios.post(
-			`http://158.160.172.11:8080/api/v1/firms/finance_instruments?offset=${offset}&limit=${limit}`,
+			`${process.env.REACT_APP_ENDPOINT_URL}/api/v1/firms/finance_instruments?offset=${offset}&limit=${limit}`,
 			filters,
 			{
 				headers: {
