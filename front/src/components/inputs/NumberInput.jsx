@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-const NumberInput = ({ name, min = 0, max = 100, step = 1 }) => {
+const NumberInput = ({ name, min, max, step }) => {
 	const { register } = useFormContext();
 
 	const handleInput = (event) => {
