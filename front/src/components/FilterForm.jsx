@@ -8,7 +8,7 @@ const FilterForm = ({ onFilterChange }) => {
 	const methods = useForm({
 		mode: "onChange",
 		defaultValues: {
-			tickername: "",
+			tickerName: "",
 			type: "Акции",
 			sector: "Финансы",
 			priceFrom: "0",
@@ -16,7 +16,7 @@ const FilterForm = ({ onFilterChange }) => {
 			capitalizationFrom: "0",
 			capitalizationUpTo: "7000000000000",
 			volumeFrom: "0",
-			volumeUpTo: "1",
+			volumeUpTo: "1000000",
 		},
 	});
 
@@ -32,7 +32,7 @@ const FilterForm = ({ onFilterChange }) => {
 				className="flex flex-col gap-4 h-full"
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<SearchInput name="tickername" />
+				<SearchInput name="tickerName" />
 				<h2 className="text-main">Тип инструмента:</h2>
 				<Selector
 					name="type"
