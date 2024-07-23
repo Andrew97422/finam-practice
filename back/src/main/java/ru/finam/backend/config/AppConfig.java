@@ -1,14 +1,22 @@
 package ru.finam.backend.config;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.client.ClientConfiguration;
+import org.springframework.data.elasticsearch.client.elc.ElasticsearchConfiguration;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Configuration
-public class AppConfig {
+@EnableElasticsearchRepositories(basePackages = "ru.finam.backend.elasticsearch.repos")
+public class AppConfig extends ElasticsearchConfiguration {
 
-    @Bean
-    public ModelMapper mapper() {
-        return new ModelMapper();
+    @Override
+    public ClientConfiguration clientConfiguration() {
+        return ClientConfiguration.builder()
+                .connectedTo("localhost:9200")
+                //.usingSsl()
+                //.withConnectTimeout(Duration.ofSeconds(5))
+                //.withSocketTimeout(Duration.ofSeconds(3))
+                //.withBasicAuth("elastic", "abc")
+                .build();
     }
 }
