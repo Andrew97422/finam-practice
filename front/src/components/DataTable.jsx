@@ -68,12 +68,11 @@ const DataTable = () => {
 				muiTableHeadCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
-					return new Intl.NumberFormat('ru-RU', {
-						notation: 'compact',
-						compactDisplay: 'short',
+					return new Intl.NumberFormat("ru-RU", {
+						notation: "compact",
+						compactDisplay: "short",
 						minimumFractionDigits: 0,
 						maximumFractionDigits: 3,
-
 					}).format(number);
 				},
 			},
@@ -85,9 +84,9 @@ const DataTable = () => {
 				muiTableHeadCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
-					return new Intl.NumberFormat('ru-RU', {
-						notation: 'compact',
-						compactDisplay: 'short',
+					return new Intl.NumberFormat("ru-RU", {
+						notation: "compact",
+						compactDisplay: "short",
 						minimumFractionDigits: 0,
 						maximumFractionDigits: 2,
 					}).format(number);
@@ -101,12 +100,9 @@ const DataTable = () => {
 		columns,
 		data: data || [],
 
-		onSortingChange: setSorting,
-		
 		onPaginationChange: setPagination,
-		state: { 
+		state: {
 			pagination,
-			sorting 
 		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
 

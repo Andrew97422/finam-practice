@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SideBar = () => {
-	const [isSidebarOpen, setSidebarOpen] = useState(false);
+	const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!isSidebarOpen);
