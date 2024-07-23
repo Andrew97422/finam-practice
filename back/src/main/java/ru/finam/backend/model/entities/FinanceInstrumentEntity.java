@@ -1,18 +1,27 @@
 package ru.finam.backend.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "finance_instruments")
-public class FinanceInstrumentEntity {
+public class FinanceInstrumentEntity implements Serializable {
     @Id
     @Column(name = "finance_instrument_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
