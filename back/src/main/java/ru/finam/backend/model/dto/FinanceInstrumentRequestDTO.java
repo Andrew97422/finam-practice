@@ -52,7 +52,7 @@ public class FinanceInstrumentRequestDTO {
 
     @Positive
     @Digits(integer = 30,fraction = 8)
-    @Schema(description = "Средний объем торгов до", name = "volumeUpTo", example = "1")
+    @Schema(description = "Средний объем торгов до", name = "volumeUpTo", example = "1000000000000000")
     private float volumeUpTo;
 
     @Schema(description = "Сортировать по ", name = "sortBy", example = "price")
