@@ -43,7 +43,7 @@ services:
     image: redis
     ports:
       - "6379:6379"
-    restart: always
+    # restart: always
 
 volumes:
   prometheus_data: {}
