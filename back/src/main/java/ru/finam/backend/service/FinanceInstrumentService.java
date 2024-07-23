@@ -79,6 +79,42 @@ public class FinanceInstrumentService {
         predicates.add(cb.between(root.get("averageTradingVolume"),
                 filter.getVolumeFrom(), filter.getVolumeUpTo()));
 
+        // сортировка тут
+
+        if(!filter.getSortOrder().isEmpty()) {
+            switch (filter.getSortBy()) {
+                case "price":
+                    cr.orderBy(
+                            filter.getSortOrder().equals("asc") ? cb.asc(root.get("price")) :
+                                    cb.desc(root.get("price"))
+                    );
+                    break;
+                case "name":
+                    cr.orderBy(
+                            filter.getSortOrder().equals("asc") ? cb.asc(root.get("firm").get("name")) :
+                                    cb.desc(root.get("firm").get("name"))
+                    );
+                    break;
+                case "ticker":
+                    cr.orderBy(
+                            filter.getSortOrder().equals("asc") ? cb.asc(root.get("firm").get("ticker")) :
+                                    cb.desc(root.get("firm").get("ticker"))
+                    );
+                    break;
+                case "capitalization":
+                    cr.orderBy(
+                            filter.getSortOrder().equals("asc") ? cb.asc(root.get("firm").get("capitalization")) :
+                                    cb.desc(root.get("firm").get("capitalization"))
+                    );
+                    break;
+                case "averageTradingVolume":
+                    cr.orderBy(
+                            filter.getSortOrder().equals("asc") ? cb.asc(root.get("averageTradingVolume")) :
+                                    cb.desc(root.get("averageTradingVolume"))
+                    );
+                    break;
+            }
+        }
         cr.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
 
         return em.createQuery(cr).getResultList();

@@ -55,4 +55,12 @@ public class FinanceInstrumentRequestDTO {
     @Schema(description = "Средний объем торгов до", name = "volumeUpTo", example = "1")
     private float volumeUpTo;
 
+    @Schema(description = "Сортировать по ", name = "sortBy", example = "price")
+    @NotNull
+    private String sortBy;
+
+    @Schema(description = "Порядок сортировки", name = "sortOrder", example = "asc")
+    @NotNull
+    private String sortOrder;
+
 }
