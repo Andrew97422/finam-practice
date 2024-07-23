@@ -21,6 +21,8 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.service.FinanceInstrumentService;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -73,6 +75,20 @@ public class FinanceInstrumentController {
             return ResponseEntity.ok(response);
         } catch (IllegalAccessError e) {
             log.error("Instrument {} was not found", filter);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/finance_instruments/elastic")
+    public ResponseEntity<List<FinanceInstrumentResponseDTO>> getFinanceInstrumentsElastic(
+            @RequestParam(name = "ticker") String ticker
+    ) {
+        try {
+            List<FinanceInstrumentResponseDTO> response = financeInstrumentService.getFromElasticSearchByTicker(ticker);
+            log.info("Instrument {} was found", response);
+            return ResponseEntity.ok(response);
+        } catch (IllegalAccessError e) {
+            log.error("Instrument {} was not found", e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

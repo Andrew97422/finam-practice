@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.finam.backend.elasticsearch.repos.EFirmRepository;
 import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
@@ -26,6 +27,7 @@ public class FinanceInstrumentService {
 
     private final ApplicationUtils applicationUtils;
     private final ValidationService validationService;
+    private final EFirmRepository eFirmRepository;
 
     @PersistenceContext
     private final EntityManager em;
@@ -120,4 +122,15 @@ public class FinanceInstrumentService {
         return em.createQuery(cr).getResultList();
     }
 
+    public List<FinanceInstrumentResponseDTO> getFromElasticSearchByTicker(String ticker) {
+        var tickers = eFirmRepository.findByTicker(ticker);
+        return tickers.stream().map(i -> {
+            var instrument = new FinanceInstrumentResponseDTO();
+            instrument.setTicker(i.getTicker());
+            instrument.setName(i.getName());
+            instrument.setCapitalization(i.getCapitalization());
+            instrument.setAverageTradingVolume(Float.MAX_VALUE);
+            return instrument;
+        }).toList();
+    }
 }

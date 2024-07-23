@@ -3,6 +3,7 @@ package ru.finam.backend.elasticsearch.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 import ru.finam.backend.model.entities.SectorEntity;
 
@@ -15,21 +16,21 @@ import java.util.List;
 @Document(indexName = "firms_elk")
 public class FirmEntity {
     @Id
-    @Column(name = "firm_id")
+    //@Field(name = "firm_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name")
+    @Field(name = "name")
     private String name;
 
-    @Column(name = "ticker")
+    @Field(name = "ticker")
     private String ticker;
 
     @ManyToOne
     @JoinColumn(name = "sector_id")
     private SectorEntity sector;
 
-    @Column(name = "capitalization")
+    @Field(name = "capitalization")
     private float capitalization;
 
     @OneToMany(mappedBy = "firm")
