@@ -69,6 +69,9 @@ public class FinanceInstrumentService {
             ));
         }
 
+
+
+
         predicates.add(cb.like(root.get("firm").get("sector").get("name"), filter.getSector()));
         predicates.add(cb.like(root.get("instrumentType").get("name"), filter.getType()));
 
