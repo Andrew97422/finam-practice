@@ -69,7 +69,7 @@ const DataTable = () => {
 						compactDisplay: 'short',
 						minimumFractionDigits: 0,
 						maximumFractionDigits: 3,
-						
+
 					}).format(number);
 				},
 			},
@@ -96,9 +96,16 @@ const DataTable = () => {
 	const table = useMaterialReactTable({
 		columns,
 		data: data || [],
+
+		onSortingChange: setSorting,
+		
 		onPaginationChange: setPagination,
-		state: { pagination },
+		state: { 
+			pagination,
+			sorting 
+		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
+
 		enableRowSelection: false,
 		enableColumnOrdering: false,
 		enableGlobalFilter: false,
@@ -108,6 +115,7 @@ const DataTable = () => {
 		enableColumnVisibility: false,
 		enableFullScreenToggle: false,
 		manualPagination: true,
+		manualSorting: true,
 		muiTableHeadCellProps: {
 			sx: {
 				backgroundColor: "#ABD5D6",
