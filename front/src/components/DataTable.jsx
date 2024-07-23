@@ -16,14 +16,18 @@ const DataTable = () => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 	const [totalRows, setTotalRows] = useState(0);
 	const [data, setData] = useState([]);
+	const [sorting, setSorting] = useState([]);
 
 	const { filters } = useMainContext();
+
+	console.log(sorting)
 
 	const loadData = async () => {
 		const result = await fetchData(
 			filters,
 			pagination.pageIndex,
-			pagination.pageSize
+			pagination.pageSize,
+			sorting
 		);
 		console.log(result);
 		setData(result.data);
