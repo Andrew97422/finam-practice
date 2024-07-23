@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import {
 	useMaterialReactTable,
 	MRT_Table,
@@ -61,6 +62,16 @@ const DataTable = () => {
 				size: 150,
 				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat('ru-RU', {
+						notation: 'compact',
+						compactDisplay: 'short',
+						minimumFractionDigits: 0,
+						maximumFractionDigits: 3,
+						
+					}).format(number);
+				},
 			},
 			{
 				accessorKey: "averageTradingVolume",
@@ -68,6 +79,15 @@ const DataTable = () => {
 				size: 150,
 				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat('ru-RU', {
+						notation: 'compact',
+						compactDisplay: 'short',
+						minimumFractionDigits: 0,
+						maximumFractionDigits: 2,
+					}).format(number);
+				},
 			},
 		],
 		[]
