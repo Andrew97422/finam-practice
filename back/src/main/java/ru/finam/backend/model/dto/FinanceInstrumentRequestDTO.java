@@ -60,7 +60,7 @@ public class FinanceInstrumentRequestDTO {
     private String sortBy;
 
     @Schema(description = "Порядок сортировки", name = "sortOrder", example = "asc")
-    @NotBlank
+    @NotNull
     private String sortOrder;
 
 }

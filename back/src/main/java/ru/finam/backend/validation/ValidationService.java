@@ -26,7 +26,8 @@ public class ValidationService {
         if( Float.compare(filter.getVolumeFrom(), filter.getVolumeUpTo()) > -1){
             throw new IllegalArgumentException("Некорректные данные для полей : volumeFrom, volumeUpTo");
         }
-        if(! (filter.getSortOrder().equals("asc") || filter.getSortOrder().equals("desc")) ){
+        if( !filter.getSortBy().isEmpty() &&
+                !(filter.getSortOrder().equals("asc") || filter.getSortOrder().equals("desc")) ){
             throw new IllegalArgumentException("Некорректное значение для поля sortOrder");
         }
     }

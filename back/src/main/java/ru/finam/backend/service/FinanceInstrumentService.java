@@ -80,6 +80,12 @@ public class FinanceInstrumentService {
                 filter.getVolumeFrom(), filter.getVolumeUpTo()));
 
         // сортировка тут
+        if(filter.getSortBy().equals("price")){
+            cr.orderBy(
+                    filter.getSortOrder().equals("asc") ? cb.asc(root.get("price")) : cb.desc(root.get("price"))
+            );
+        }
+
 
 
         cr.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
