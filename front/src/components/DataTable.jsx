@@ -18,10 +18,7 @@ const DataTable = () => {
 	const [data, setData] = useState([]);
 	const [sorting, setSorting] = useState([]);
 
-	const { filters } = useMainContext();
-	const { setFilters } = useMainContext();
-
-	console.log(sorting)
+	const { filters, setFilters } = useMainContext();
 
 	const loadData = async () => {
 		const result = await fetchData(
@@ -67,6 +64,13 @@ const DataTable = () => {
 				header: "Цена",
 				size: 200,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat("ru-RU", {
+						style: 'currency',
+						currency: 'RUB'
+					}).format(number);
+				},
 			},
 			{
 				accessorKey: "capitalization",
