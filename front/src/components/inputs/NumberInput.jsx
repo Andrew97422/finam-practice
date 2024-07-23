@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const NumberInput = ({ name, min, max, step }) => {
 	const { register, setValue, watch, getFieldState } = useFormContext();
-	const value = watch(name) || "";
+	const value = watch(name) || "0";
 
 	const intRegExp = /^([1-9][0-9]*|0)?$/;
 
