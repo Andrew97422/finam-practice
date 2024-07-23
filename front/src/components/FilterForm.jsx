@@ -13,11 +13,11 @@ const FilterForm = () => {
 			type: "Акции",
 			sector: "Финансы",
 			priceFrom: 0,
-			priceUpTo: 2953292,
+			priceUpTo: 3000000,
 			capitalizationFrom: 0,
-			capitalizationUpTo: 6883645978240,
+			capitalizationUpTo: 7000000000000,
 			volumeFrom: 0,
-			volumeUpTo: 1236600886,
+			volumeUpTo: 1250000000,
 		},
 	});
 
@@ -81,33 +81,63 @@ const FilterForm = () => {
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="priceFrom" min={0} />
+						<NumberInput
+							name="priceFrom"
+							min={0}
+							max={3000000}
+							step={1}
+						/>
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="priceUpTo" min={0} />
+						<NumberInput
+							name="priceUpTo"
+							min={0}
+							max={3000000}
+							step={1}
+						/>
 					</div>
 				</div>
 				<h2 className="text-main">Капитализация:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="capitalizationFrom" min={0} />
+						<NumberInput
+							name="capitalizationFrom"
+							min={0}
+							max={7000000000000}
+							step={1}
+						/>
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="capitalizationUpTo" min={0} />
+						<NumberInput
+							name="capitalizationUpTo"
+							min={0}
+							max={7000000000000}
+							step={1}
+						/>
 					</div>
 				</div>
 				<h2 className="text-main">Средний объем торгов:</h2>
 				<div className="flex flex-col gap-3 w-full">
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="volumeFrom" min={0} />
+						<NumberInput
+							name="volumeFrom"
+							min={0}
+							max={1250000000}
+							step={1}
+						/>
 					</div>
 					<div className="flex flex-row gap-2">
 						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="volumeUpTo" min={0} />
+						<NumberInput
+							name="volumeUpTo"
+							min={0}
+							max={1250000000}
+							step={1}
+						/>
 					</div>
 				</div>
 				<div className="flex flex-row justify-around">
@@ -127,7 +157,6 @@ const FilterForm = () => {
 						Сбросить
 					</button>
 				</div>
-				{/* <DevTool control={methods.control} /> */}
 			</form>
 		</FormProvider>
 	);

@@ -8,20 +8,24 @@ export const MainContextProvider = ({ children }) => {
 		type: "Акции",
 		sector: "Финансы",
 		priceFrom: 0,
-		priceUpTo: 2953292,
+		priceUpTo: 3000000, //2953292 - максимальное в БД
 		capitalizationFrom: 0,
-		capitalizationUpTo: 6883645978240,
+		capitalizationUpTo: 7000000000000, // 6883645978240 - максимальное в БД
 		volumeFrom: 0,
-		volumeUpTo: 1236600886,
+		volumeUpTo: 1250000000, // 1236600886 - максимальное в БД
 		sortBy: "price",
 		sortOrder: "desc",
 	});
+
+	const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 	return (
 		<MainContext.Provider
 			value={{
 				filters,
 				setFilters,
+				isSidebarOpen,
+				setSidebarOpen,
 			}}
 		>
 			{children}
