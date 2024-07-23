@@ -33,6 +33,10 @@ spring:
       ddl-auto: update #create-drop
     open-in-view: true
     defer-datasource-initialization: true
+  data:
+    elasticsearch:
+      cluster-names: firm
+      cluster-node: localhost:9200
 
 management:
   endpoints:
