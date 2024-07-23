@@ -19,6 +19,7 @@ const DataTable = () => {
 	const [sorting, setSorting] = useState([]);
 
 	const { filters } = useMainContext();
+	const { setFilters } = useMainContext();
 
 	console.log(sorting)
 
@@ -27,7 +28,6 @@ const DataTable = () => {
 			filters,
 			pagination.pageIndex,
 			pagination.pageSize,
-			sorting
 		);
 		console.log(result);
 		setData(result.data);
@@ -37,6 +37,14 @@ const DataTable = () => {
 	useEffect(() => {
 		loadData();
 	}, [filters, pagination.pageIndex, pagination.pageSize]);
+
+	useEffect(() => {
+		setFilters({
+			...filters,
+			sortBy: sorting[0]?.id || "price",
+			sortOrder: sorting[0]?.desc ? "desc" : "asc"
+			})
+	}, [sorting]);
 
 	const columns = useMemo(
 		() => [
@@ -101,8 +109,9 @@ const DataTable = () => {
 		data: data || [],
 
 		onPaginationChange: setPagination,
+		onSortingChange: setSorting,
 		state: {
-			pagination,
+			pagination, sorting
 		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
 
