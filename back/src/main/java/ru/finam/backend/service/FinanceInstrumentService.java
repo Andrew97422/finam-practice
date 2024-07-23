@@ -79,6 +79,9 @@ public class FinanceInstrumentService {
         predicates.add(cb.between(root.get("averageTradingVolume"),
                 filter.getVolumeFrom(), filter.getVolumeUpTo()));
 
+        // сортировка тут
+
+
         cr.select(root).where(cb.and(predicates.toArray(new Predicate[0])));
 
         return em.createQuery(cr).getResultList();

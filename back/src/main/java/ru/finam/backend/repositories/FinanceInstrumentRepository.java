@@ -8,12 +8,11 @@ import org.springframework.stereotype.Repository;
 import ru.finam.backend.model.entities.FinanceInstrumentEntity;
 
 import java.util.List;
-import ru.finam.backend.repositories.customrepositories.financeinstrumentrepository.CustomFinanceInstrumentRepository;
+
 
 @Repository
 public interface FinanceInstrumentRepository extends
-    JpaRepository<FinanceInstrumentEntity, Integer>,
-    CustomFinanceInstrumentRepository {
+    JpaRepository<FinanceInstrumentEntity, Integer>{
 
     @Query(
         value = "SELECT fi.* FROM finance_instruments fi JOIN firms f ON fi.firm_id = f.firm_id" +
