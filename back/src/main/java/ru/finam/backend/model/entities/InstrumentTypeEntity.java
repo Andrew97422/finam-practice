@@ -1,5 +1,6 @@
 package ru.finam.backend.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
@@ -19,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "instrument_types")
-public class InstrumentTypeEntity {
+public class InstrumentTypeEntity implements Serializable {
     @Id
     @Column(name = "instrument_type_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +32,6 @@ public class InstrumentTypeEntity {
 
     @OneToMany(mappedBy = "instrumentType")
     @ToString.Exclude
+    @JsonIgnore
     private List<FinanceInstrumentEntity> financeInstrumentList;
 }

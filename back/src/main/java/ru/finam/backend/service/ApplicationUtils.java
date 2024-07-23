@@ -55,4 +55,8 @@ public class ApplicationUtils {
         return new PageImpl<>(pageContent, pageRequest, list.size());
     }
 
+    public boolean isInRange(float x, float lowIncl, float highIncl){
+        return Float.compare(x, lowIncl) >= 0 && Float.compare(x, highIncl) <= 0;
+    }
+
 }
