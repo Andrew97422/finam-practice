@@ -84,20 +84,20 @@ public class FinanceInstrumentService {
         String tickerName = filter.getTickerName();
         List<FinanceInstrumentEntity> entityList;
 
-        /*
+        
         if (redisTemplate.opsForHash().hasKey(KEY, tickerName)) {
             entityList = (List<FinanceInstrumentEntity>) redisTemplate.opsForHash().get(KEY, tickerName);
         } else{
             entityList = getInstrumentsByTickerOrNameFromDB(tickerName);
-        }*/
-        entityList = getInstrumentsByTickerOrNameFromDB(tickerName);
+        }
+        //entityList = getInstrumentsByTickerOrNameFromDB(tickerName);
 
         List<FinanceInstrumentEntity> filteredEntityList = filterInstruments(filter, entityList);
 
-        /*
+        
         if(!tickerName.isEmpty() && !redisTemplate.opsForHash().hasKey(KEY, tickerName)){
             redisTemplate.opsForHash().put(KEY, tickerName, filteredEntityList);
-        }*/
+        }
 
         return sortInstruments(filter.getSortBy(), filter.getSortOrder(), filteredEntityList);
     }
@@ -114,8 +114,8 @@ public class FinanceInstrumentService {
 
         if (!tickerName.isEmpty()) {
             cr.where(cb.or(
-                    cb.like(root.get("firm").get("ticker"), "%" + tickerName + "%"),
-                    cb.like(root.get("firm").get("name"), "%" + tickerName + "%")
+                    cb.like(cb.upper(root.get("firm").get("ticker")), cb.upper(cb.literal("%" + tickerName + "%"))),
+                    cb.like(cb.upper(root.get("firm").get("name")), cb.upper(cb.literal("%" + tickerName + "%")))
             ));
         }
 
