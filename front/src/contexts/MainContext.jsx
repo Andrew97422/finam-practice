@@ -17,11 +17,15 @@ export const MainContextProvider = ({ children }) => {
 		sortOrder: "desc",
 	});
 
+	const [isSidebarOpen, setSidebarOpen] = useState(true);
+
 	return (
 		<MainContext.Provider
 			value={{
 				filters,
 				setFilters,
+				isSidebarOpen,
+				setSidebarOpen,
 			}}
 		>
 			{children}

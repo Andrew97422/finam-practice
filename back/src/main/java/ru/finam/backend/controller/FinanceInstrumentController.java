@@ -21,6 +21,8 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.service.FinanceInstrumentService;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -76,4 +78,30 @@ public class FinanceInstrumentController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject(
+                            value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"" +
+                                    "В данное поле неккоретно введены данные: негативные числа," +
+                                    " буквы в поля для чисел и т.д.\"}") })),
+            @ApiResponse(responseCode = "200", description = "ОК", content = @Content(mediaType = "List<String>", examples = { @ExampleObject(value = "[\"Сбербанк-п\", \"SBERP\", \"Сбербанк\", \"SBER\"]")}))
+    })
+    @Operation(
+            summary = "Получение списка имен и инструментов",
+            description = "Получение списка имен и инструментов по фильтрам"
+    )
+    @PostMapping("/finance_ticker_and_name")
+    public ResponseEntity<List<String>> getFinanceTickerAndNameByFilter(@Valid @RequestBody FinanceInstrumentRequestDTO filter) {
+        try {
+            List<String> response = financeInstrumentService.getFinanceTickerAndNameByFilter(filter);
+            log.info("Ticker and name {} was found!", filter);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            log.error("Ticker and name {} was not found!", filter);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

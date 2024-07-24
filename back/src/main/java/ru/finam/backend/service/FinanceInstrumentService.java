@@ -55,18 +55,46 @@ public class FinanceInstrumentService {
         return applicationUtils.convertListToPage(responseDTOList, offset, limit);
     }
 
+    public List<String> getFinanceTickerAndNameByFilter(FinanceInstrumentRequestDTO filter){
+
+        List<String> result = new ArrayList<>();
+
+        // Проверка полей DTO на валидность
+        validationService.checkRequestDTOFieldsAreValid(filter);
+
+        // Получение отфильтрованных данных либо из кэша, либо из БД
+        List<FinanceInstrumentEntity> entitylist = getInstruments(filter);
+
+        // Преобразование списка сущностей в список responseDTO
+        List<FinanceInstrumentResponseDTO> responseDTOList =
+                applicationUtils.mapToFinanceInstrumentResponseDTOList(entitylist);
+
+        // Преобразование к List<string>
+        for(FinanceInstrumentResponseDTO resp:responseDTOList){
+            result.add(resp.getName());
+            result.add(resp.getTicker());
+        }
+
+        // Возвращаем List<string>
+        return result;
+    }
+
+
     private List<FinanceInstrumentEntity> getInstruments(FinanceInstrumentRequestDTO filter){
         String tickerName = filter.getTickerName();
         List<FinanceInstrumentEntity> entityList;
 
+        
         if (redisTemplate.opsForHash().hasKey(KEY, tickerName)) {
             entityList = (List<FinanceInstrumentEntity>) redisTemplate.opsForHash().get(KEY, tickerName);
         } else{
             entityList = getInstrumentsByTickerOrNameFromDB(tickerName);
         }
+        //entityList = getInstrumentsByTickerOrNameFromDB(tickerName);
 
         List<FinanceInstrumentEntity> filteredEntityList = filterInstruments(filter, entityList);
 
+        
         if(!tickerName.isEmpty() && !redisTemplate.opsForHash().hasKey(KEY, tickerName)){
             redisTemplate.opsForHash().put(KEY, tickerName, filteredEntityList);
         }
@@ -86,8 +114,8 @@ public class FinanceInstrumentService {
 
         if (!tickerName.isEmpty()) {
             cr.where(cb.or(
-                    cb.like(root.get("firm").get("ticker"), "%" + tickerName + "%"),
-                    cb.like(root.get("firm").get("name"), "%" + tickerName + "%")
+                    cb.like(cb.upper(root.get("firm").get("ticker")), cb.upper(cb.literal("%" + tickerName + "%"))),
+                    cb.like(cb.upper(root.get("firm").get("name")), cb.upper(cb.literal("%" + tickerName + "%")))
             ));
         }
 
@@ -100,15 +128,47 @@ public class FinanceInstrumentService {
     private List<FinanceInstrumentEntity> filterInstruments(FinanceInstrumentRequestDTO filter,
                                                             List<FinanceInstrumentEntity> l){
 
-        Predicate<FinanceInstrumentEntity> filterPredicate = fi -> {
-            return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
-                    fi.getInstrumentType().getName().equals(filter.getType()) &&
-                    applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
-                    applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
-                            filter.getVolumeUpTo()) &&
-                    applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
-                            filter.getCapitalizationUpTo());
-        };
+        Predicate<FinanceInstrumentEntity> filterPredicate;
+        if (!filter.getSector().isEmpty() && !filter.getType().isEmpty()) {
+            filterPredicate = fi -> {
+                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
+                        fi.getInstrumentType().getName().equals(filter.getType()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else if (filter.getSector().isEmpty() && !filter.getType().isEmpty()){
+            filterPredicate = fi -> {
+                return fi.getInstrumentType().getName().equals(filter.getType()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else if (filter.getType().isEmpty() && !filter.getSector().isEmpty()){
+            filterPredicate = fi -> {
+                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else{
+            filterPredicate = fi -> {
+                return applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
 
         return l.parallelStream().filter(filterPredicate).collect(Collectors.toList());
     }
@@ -131,6 +191,16 @@ public class FinanceInstrumentService {
                 return sortOrder.equals("asc") ?
                         Float.compare(fi1.getFirm().getCapitalization(), fi2.getFirm().getCapitalization()) :
                         Float.compare(fi2.getFirm().getCapitalization(), fi1.getFirm().getCapitalization());
+            }).toList();
+            case "ticker" -> sortedEntityList = l.parallelStream().sorted((fi1, fi2) -> {
+                return sortOrder.equals("asc") ?
+                        fi1.getFirm().getTicker().compareTo(fi2.getFirm().getTicker()) :
+                        fi2.getFirm().getTicker().compareTo(fi1.getFirm().getTicker());
+            }).toList();
+            case "name" -> sortedEntityList = l.parallelStream().sorted((fi1, fi2) -> {
+                return sortOrder.equals("asc") ?
+                        fi1.getFirm().getName().compareTo(fi2.getFirm().getName()) :
+                        fi2.getFirm().getName().compareTo(fi1.getFirm().getName());
             }).toList();
             default -> throw new IllegalArgumentException("Данного поля для сортировки не существует : " + sortBy);
         }

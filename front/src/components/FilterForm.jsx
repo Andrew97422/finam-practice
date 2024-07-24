@@ -23,7 +23,7 @@ const FilterForm = () => {
 
 	const { setFilters } = useMainContext();
 	const onSubmit = (data) => {
-		setFilters(data);
+		setFilters({ ...data, sortBy: "price", sortOrder: "desc" });
 	};
 
 	return (
@@ -33,81 +33,135 @@ const FilterForm = () => {
 				onSubmit={methods.handleSubmit(onSubmit)}
 			>
 				<SearchInput name="tickerName" />
-				<h2 className="text-main">Тип инструмента:</h2>
-				<Selector
-					name="type"
-					optionsData={[
-						{ value: "Акции", text: "Акции" },
-						{ value: "Индексы", text: "Индексы" },
-						{ value: "Фьючерсы", text: "Фьючерсы" },
-						{ value: "Валюты", text: "Валюты" },
-						{ value: "Фонды", text: "Фонды" },
-						{ value: "Облигации", text: "Облигации" },
-					]}
-				/>
-				<h2 className="text-main">Сектор:</h2>
-				<Selector
-					name="sector"
-					optionsData={[
-						{ value: "Финансы", text: "Финансы" },
-						{ value: "Энергетика", text: "Энергетика" },
-						{ value: "Материалы", text: "Материалы" },
-						{
-							value: "Потребительские товары массового спроса",
-							text: "Потребительские товары массового спроса",
-						},
-						{ value: "Услуги связи", text: "Услуги связи" },
-						{
-							value: "Неосновные потребительские товары",
-							text: "Неосновные потребительские товары",
-						},
-						{ value: "Промышленность", text: "Промышленность" },
-						{ value: "Недвижимость", text: "Недвижимость" },
-						{
-							value: "Коммунальные услуги",
-							text: "Коммунальные услуги",
-						},
-						{
-							value: "Информационные технологии",
-							text: "Информационные технологии",
-						},
-						{
-							value: "Здравоохранение",
-							text: "Здравоохранение",
-						},
-					]}
-				/>
-				<h2 className="text-main">Цена:</h2>
-				<div className="flex flex-col gap-3 w-full">
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="priceFrom" min={0} />
-					</div>
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="priceUpTo" min={0} />
+				<div className="flex flex-col">
+					<h2 className="text-main">Тип инструмента:</h2>
+					<Selector
+						name="type"
+						optionsData={[
+							{ value: "", text: "Не выбрано" },
+							{ value: "Акции", text: "Акции" },
+							{ value: "Индексы", text: "Индексы" },
+							{ value: "Фьючерсы", text: "Фьючерсы" },
+							{ value: "Валюты", text: "Валюты" },
+							{ value: "Фонды", text: "Фонды" },
+							{ value: "Облигации", text: "Облигации" },
+						]}
+					/>
+				</div>
+				<div className="flex flex-col">
+					<h2 className="text-main">Сектор:</h2>
+					<Selector
+						name="sector"
+						optionsData={[
+							{ value: "", text: "Не выбрано" },
+							{ value: "Финансы", text: "Финансы" },
+							{ value: "Энергетика", text: "Энергетика" },
+							{ value: "Материалы", text: "Материалы" },
+							{
+								value: "Потребительские товары массового спроса",
+								text: "Потребительские товары массового спроса",
+							},
+							{ value: "Услуги связи", text: "Услуги связи" },
+							{
+								value: "Неосновные потребительские товары",
+								text: "Неосновные потребительские товары",
+							},
+							{ value: "Промышленность", text: "Промышленность" },
+							{ value: "Недвижимость", text: "Недвижимость" },
+							{
+								value: "Коммунальные услуги",
+								text: "Коммунальные услуги",
+							},
+							{
+								value: "Информационные технологии",
+								text: "Информационные технологии",
+							},
+							{
+								value: "Здравоохранение",
+								text: "Здравоохранение",
+							},
+						]}
+					/>
+				</div>
+				<div className="flex flex-col">
+					<h2 className="text-main">Цена:</h2>
+					<div className="flex flex-col gap-3 w-full">
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								От:
+							</span>
+							<NumberInput
+								name="priceFrom"
+								min={0}
+								max={3000000}
+								step={1}
+							/>
+						</div>
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								До:
+							</span>
+							<NumberInput
+								name="priceUpTo"
+								min={0}
+								max={3000000}
+								step={1}
+							/>
+						</div>
 					</div>
 				</div>
-				<h2 className="text-main">Капитализация:</h2>
-				<div className="flex flex-col gap-3 w-full">
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="capitalizationFrom" min={0} />
-					</div>
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="capitalizationUpTo" min={0} />
+				<div className="flex flex-col">
+					<h2 className="text-main">Капитализация:</h2>
+					<div className="flex flex-col gap-3 w-full">
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								От:
+							</span>
+							<NumberInput
+								name="capitalizationFrom"
+								min={0}
+								max={7000000000000}
+								step={1}
+							/>
+						</div>
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								До:
+							</span>
+							<NumberInput
+								name="capitalizationUpTo"
+								min={0}
+								max={7000000000000}
+								step={1}
+							/>
+						</div>
 					</div>
 				</div>
-				<h2 className="text-main">Средний объем торгов:</h2>
-				<div className="flex flex-col gap-3 w-full">
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">От:</span>
-						<NumberInput name="volumeFrom" min={0} />
-					</div>
-					<div className="flex flex-row gap-2">
-						<span className="text-main w-1/6">До:</span>
-						<NumberInput name="volumeUpTo" min={0} />
+				<div className="flex flex-col">
+					<h2 className="text-main">Средний объем торгов:</h2>
+					<div className="flex flex-col gap-3 w-full">
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								От:
+							</span>
+							<NumberInput
+								name="volumeFrom"
+								min={0}
+								max={1250000000}
+								step={1}
+							/>
+						</div>
+						<div className="flex flex-row gap-2">
+							<span className="text-main w-1/4 self-center">
+								До:
+							</span>
+							<NumberInput
+								name="volumeUpTo"
+								min={0}
+								max={1250000000}
+								step={1}
+							/>
+						</div>
 					</div>
 				</div>
 				<div className="flex flex-row justify-around">
@@ -127,7 +181,6 @@ const FilterForm = () => {
 						Сбросить
 					</button>
 				</div>
-				{/* <DevTool control={methods.control} /> */}
 			</form>
 		</FormProvider>
 	);

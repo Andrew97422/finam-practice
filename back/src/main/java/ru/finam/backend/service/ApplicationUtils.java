@@ -25,7 +25,9 @@ public class ApplicationUtils {
             .name(f.getName())
             .price(fi.getPrice())
             .averageTradingVolume(fi.getAverageTradingVolume())
+            .instrumentType(fi.getInstrumentType().getName())
             .capitalization(f.getCapitalization())
+            .sector(f.getSector().getName())
             .build();
     }
 

@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from "react";
-import axios from "axios";
 import {
 	useMaterialReactTable,
 	MRT_Table,
@@ -18,7 +17,7 @@ const DataTable = () => {
 	const [data, setData] = useState([]);
 	const [sorting, setSorting] = useState([]);
 
-	const { filters, setFilters } = useMainContext();
+	const { isSidebarOpen, filters, setFilters } = useMainContext();
 
 	const loadData = async () => {
 		const result = await fetchData(
@@ -26,7 +25,6 @@ const DataTable = () => {
 			pagination.pageIndex,
 			pagination.pageSize,
 		);
-		console.log(result);
 		setData(result.data);
 		setTotalRows(result.totalElements);
 	};
@@ -39,8 +37,8 @@ const DataTable = () => {
 		setFilters({
 			...filters,
 			sortBy: sorting[0]?.id || "price",
-			sortOrder: sorting[0]?.desc ? "desc" : "asc"
-			})
+			sortOrder: sorting[0]?.desc ? "desc" : "asc",
+		});
 	}, [sorting]);
 
 	const columns = useMemo(
@@ -48,36 +46,45 @@ const DataTable = () => {
 			{
 				accessorKey: "ticker",
 				header: "Тикер",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
 			},
 			{
 				accessorKey: "name",
 				header: "Наименование",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
+			},
+			{
+				accessorKey: "instrumentType",
+				header: "Тип инструмента",
+				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
+			},
+			{
+				accessorKey: "sector",
+				header: "Сектор",
+				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
 			},
 			{
 				accessorKey: "price",
 				header: "Цена",
-				size: 200,
 				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
 					return new Intl.NumberFormat("ru-RU", {
-						style: 'currency',
-						currency: 'RUB'
+						style: "currency",
+						currency: "RUB",
 					}).format(number);
 				},
 			},
 			{
 				accessorKey: "capitalization",
 				header: "Капитализация",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
 					return new Intl.NumberFormat("ru-RU", {
@@ -91,9 +98,8 @@ const DataTable = () => {
 			{
 				accessorKey: "averageTradingVolume",
 				header: "Ср. объем торгов",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
 					return new Intl.NumberFormat("ru-RU", {
@@ -115,7 +121,8 @@ const DataTable = () => {
 		onPaginationChange: setPagination,
 		onSortingChange: setSorting,
 		state: {
-			pagination, sorting
+			pagination,
+			sorting,
 		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
 
@@ -127,6 +134,7 @@ const DataTable = () => {
 		enableColumnFilters: true,
 		enableColumnVisibility: false,
 		enableFullScreenToggle: false,
+		enableColumnResizing: true,
 		manualPagination: true,
 		manualSorting: true,
 		muiTableHeadCellProps: {
@@ -146,7 +154,6 @@ const DataTable = () => {
 		muiTableBodyCellProps: {
 			sx: {
 				border: "1px solid rgba(81, 81, 81, .5)",
-				textAlign: "center",
 			},
 		},
 		muiTableBodyRowProps: { hover: false },
@@ -179,7 +186,16 @@ const DataTable = () => {
 	};
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				transition: "300ms ease-in-out",
+				marginLeft: isSidebarOpen ? "300px" : "0px",
+				overflowX: "auto", // Позволяет таблице изменять размеры вместе с контейнером
+				width: "fit-content",
+			}}
+		>
 			<MRT_Table table={table} />
 			<Box
 				display="flex"
