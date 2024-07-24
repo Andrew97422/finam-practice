@@ -13,14 +13,20 @@ export const MainContextProvider = ({ children }) => {
 		capitalizationUpTo: 6883645978240,
 		volumeFrom: 0,
 		volumeUpTo: 1236600886,
+		sortBy: "price",
+		sortOrder: "desc",
 	});
 
-	const [offset, setOffset] = useState(0);
-	const [limit, setLimit] = useState(5);
+	const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 	return (
 		<MainContext.Provider
-			value={{ filters, setFilters, offset, setOffset, limit, setLimit }}
+			value={{
+				filters,
+				setFilters,
+				isSidebarOpen,
+				setSidebarOpen,
+			}}
 		>
 			{children}
 		</MainContext.Provider>

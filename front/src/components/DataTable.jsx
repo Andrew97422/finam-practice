@@ -16,8 +16,9 @@ const DataTable = () => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
 	const [totalRows, setTotalRows] = useState(0);
 	const [data, setData] = useState([]);
+	const [sorting, setSorting] = useState([]);
 
-	const { filters } = useMainContext();
+	const { isSidebarOpen, filters, setFilters } = useMainContext();
 
 	const loadData = async () => {
 		const result = await fetchData(
@@ -34,33 +35,41 @@ const DataTable = () => {
 		loadData();
 	}, [filters, pagination.pageIndex, pagination.pageSize]);
 
+	useEffect(() => {
+		setFilters({
+			...filters,
+			sortBy: sorting[0]?.id || "price",
+			sortOrder: sorting[0]?.desc ? "desc" : "asc",
+		});
+	}, [sorting]);
+
 	const columns = useMemo(
 		() => [
 			{
 				accessorKey: "ticker",
 				header: "Тикер",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
 			},
 			{
 				accessorKey: "name",
 				header: "Наименование",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
 			},
 			{
 				accessorKey: "price",
 				header: "Цена",
-				size: 200,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat("ru-RU", {
+						style: "currency",
+						currency: "RUB",
+					}).format(number);
+				},
 			},
 			{
 				accessorKey: "capitalization",
 				header: "Капитализация",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
@@ -75,8 +84,6 @@ const DataTable = () => {
 			{
 				accessorKey: "averageTradingVolume",
 				header: "Ср. объем торгов",
-				size: 150,
-				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
 				Cell: ({ cell }) => {
 					const number = cell.getValue();
@@ -97,8 +104,10 @@ const DataTable = () => {
 		data: data || [],
 
 		onPaginationChange: setPagination,
+		onSortingChange: setSorting,
 		state: {
 			pagination,
+			sorting,
 		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
 
@@ -162,7 +171,12 @@ const DataTable = () => {
 	};
 
 	return (
-		<Box>
+		<Box
+			sx={{
+				transition: " 300ms ease-in-out",
+				marginLeft: isSidebarOpen ? "300px" : "0px",
+			}}
+		>
 			<MRT_Table table={table} />
 			<Box
 				display="flex"

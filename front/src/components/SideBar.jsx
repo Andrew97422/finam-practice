@@ -1,10 +1,10 @@
 import FilterForm from "./FilterForm";
-import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { useMainContext } from "../contexts/MainContext";
 
 const SideBar = () => {
-	const [isSidebarOpen, setSidebarOpen] = useState(false);
+	const { isSidebarOpen, setSidebarOpen } = useMainContext();
 
 	const toggleSidebar = () => {
 		setSidebarOpen(!isSidebarOpen);
