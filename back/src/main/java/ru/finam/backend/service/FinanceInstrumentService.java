@@ -135,6 +135,16 @@ public class FinanceInstrumentService {
                         Float.compare(fi1.getFirm().getCapitalization(), fi2.getFirm().getCapitalization()) :
                         Float.compare(fi2.getFirm().getCapitalization(), fi1.getFirm().getCapitalization());
             }).toList();
+            case "ticker" -> sortedEntityList = l.parallelStream().sorted((fi1, fi2) -> {
+                return sortOrder.equals("asc") ?
+                        fi1.getFirm().getTicker().compareTo(fi2.getFirm().getTicker()) :
+                        fi2.getFirm().getTicker().compareTo(fi1.getFirm().getTicker());
+            }).toList();
+            case "name" -> sortedEntityList = l.parallelStream().sorted((fi1, fi2) -> {
+                return sortOrder.equals("asc") ?
+                        fi1.getFirm().getName().compareTo(fi2.getFirm().getName()) :
+                        fi2.getFirm().getName().compareTo(fi1.getFirm().getName());
+            }).toList();
             default -> throw new IllegalArgumentException("Данного поля для сортировки не существует : " + sortBy);
         }
 
