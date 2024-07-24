@@ -88,10 +88,10 @@ public class FinanceInstrumentController {
     public ResponseEntity<List<String>> getFinanceTickerAndNameByFilter(@Valid @RequestBody FinanceInstrumentRequestDTO filter) {
         try {
             List<String> response = financeInstrumentService.getFinanceTickerAndNameByFilter(filter);
-            log.info("Ticker and name {} was found", filter);
+            log.info("Ticker and name {} was found!", filter);
             return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            log.error("Ticker and name {} was not found", filter);
+            log.error("Ticker and name {} was not found!", filter);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
