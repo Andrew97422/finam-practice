@@ -50,3 +50,50 @@ export const fetchData = async (filters, offset, limit) => {
 		};
 	}
 };
+
+/**
+ * Запрос на получение тикеров или наименований через апи ендпоинт.
+ *
+ * @param {Object} filters - Фильтры, которые идут в тело запроса.
+ * @returns {Object} Данные или информация об ошибке.
+ */
+export const fetchSuggestions = async (filters) => {
+	try {
+		const response = await axios.post(
+			`${process.env.REACT_APP_ENDPOINT_URL}/api/v1/firms/finance_ticker_and_name`,
+			filters,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		return {
+			success: true,
+			data: response.data,
+		};
+	} catch (error) {
+		if (error.response) {
+			// Сервер ответил статусом, отличным от 2xx
+			console.error("Ошибка ответа сервера:", error.response.data);
+			console.error("Статус ответа:", error.response.status);
+		} else if (error.request) {
+			// Запрос был сделан, но ответа не получено
+			console.error(
+				"Запрос был сделан, но ответа не получено",
+				error.request
+			);
+		} else {
+			// Произошло что-то при настройке запроса, вызвавшее ошибку
+			console.error("Ошибка настройки запроса:", error.message);
+		}
+
+		return {
+			success: false,
+			error: error.response
+				? error.response.data.message
+				: "Не удалось подключиться к бекенду",
+		};
+	}
+};
