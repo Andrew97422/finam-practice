@@ -80,6 +80,14 @@ public class FinanceInstrumentController {
     }
 
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "400", description = "Неправильное значение числа элементов страницы",
+                    content = @Content(mediaType = "application/json", examples = { @ExampleObject(
+                            value = "{\"message\": \"В данное поле неккоретно введены данные\", \"debugMessage\":\"" +
+                                    "В данное поле неккоретно введены данные: негативные числа," +
+                                    " буквы в поля для чисел и т.д.\"}") })),
+            @ApiResponse(responseCode = "200", description = "ОК", content = @Content(mediaType = "List<String>", examples = { @ExampleObject(value = "[\"Сбербанк-п\", \"SBERP\", \"Сбербанк\", \"SBER\"]")}))
+    })
     @Operation(
             summary = "Получение списка имен и инструментов",
             description = "Получение списка имен и инструментов по фильтрам"
