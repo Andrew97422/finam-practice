@@ -8,11 +8,11 @@ export const MainContextProvider = ({ children }) => {
 		type: "Акции",
 		sector: "Финансы",
 		priceFrom: 0,
-		priceUpTo: 3000000, //2953292 - максимальное в БД
+		priceUpTo: 2953292,
 		capitalizationFrom: 0,
-		capitalizationUpTo: 7000000000000, // 6883645978240 - максимальное в БД
+		capitalizationUpTo: 6883645978240,
 		volumeFrom: 0,
-		volumeUpTo: 1250000000, // 1236600886 - максимальное в БД
+		volumeUpTo: 1236600886,
 		sortBy: "price",
 		sortOrder: "desc",
 	});
