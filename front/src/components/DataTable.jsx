@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from "react";
-import axios from "axios";
 import {
 	useMaterialReactTable,
 	MRT_Table,
@@ -26,7 +25,6 @@ const DataTable = () => {
 			pagination.pageIndex,
 			pagination.pageSize
 		);
-		console.log(result);
 		setData(result.data);
 		setTotalRows(result.totalElements);
 	};
@@ -54,6 +52,18 @@ const DataTable = () => {
 			{
 				accessorKey: "name",
 				header: "Наименование",
+				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
+			},
+			{
+				accessorKey: "instrumentType",
+				header: "Тип инструмента",
+				muiTableHeadCellProps: { align: "center" },
+				muiTableBodyCellProps: { align: "center" },
+			},
+			{
+				accessorKey: "sector",
+				header: "Сектор",
 				muiTableHeadCellProps: { align: "center" },
 				muiTableBodyCellProps: { align: "center" },
 			},

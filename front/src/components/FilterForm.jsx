@@ -38,6 +38,7 @@ const FilterForm = () => {
 					<Selector
 						name="type"
 						optionsData={[
+							{ value: "", text: "Не выбрано" },
 							{ value: "Акции", text: "Акции" },
 							{ value: "Индексы", text: "Индексы" },
 							{ value: "Фьючерсы", text: "Фьючерсы" },
@@ -52,6 +53,7 @@ const FilterForm = () => {
 					<Selector
 						name="sector"
 						optionsData={[
+							{ value: "", text: "Не выбрано" },
 							{ value: "Финансы", text: "Финансы" },
 							{ value: "Энергетика", text: "Энергетика" },
 							{ value: "Материалы", text: "Материалы" },
