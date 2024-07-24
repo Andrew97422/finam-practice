@@ -21,6 +21,8 @@ import ru.finam.backend.model.dto.FinanceInstrumentRequestDTO;
 import ru.finam.backend.model.dto.FinanceInstrumentResponseDTO;
 import ru.finam.backend.service.FinanceInstrumentService;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin
@@ -73,6 +75,23 @@ public class FinanceInstrumentController {
             return ResponseEntity.ok(response);
         } catch (IllegalAccessError e) {
             log.error("Instrument {} was not found", filter);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @Operation(
+            summary = "Получение списка имен и инструментов",
+            description = "Получение списка имен и инструментов по фильтрам"
+    )
+    @PostMapping("/finance_ticker_and_name")
+    public ResponseEntity<List<String>> getFinanceTickerAndNameByFilter(@Valid @RequestBody FinanceInstrumentRequestDTO filter) {
+        try {
+            List<String> response = financeInstrumentService.getFinanceTickerAndNameByFilter(filter);
+            log.info("Ticker and name {} was found", filter);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            log.error("Ticker and name {} was not found", filter);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
