@@ -117,7 +117,7 @@ public class FinanceInstrumentService {
         }
         else if (filter.getSector().isEmpty() && !filter.getType().isEmpty()){
             filterPredicate = fi -> {
-                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
+                return fi.getInstrumentType().getName().equals(filter.getType()) &&
                         applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
                         applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
                                 filter.getVolumeUpTo()) &&
@@ -127,7 +127,7 @@ public class FinanceInstrumentService {
         }
         else if (filter.getType().isEmpty() && !filter.getSector().isEmpty()){
             filterPredicate = fi -> {
-                return fi.getInstrumentType().getName().equals(filter.getType()) &&
+                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
                         applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
                         applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
                                 filter.getVolumeUpTo()) &&
