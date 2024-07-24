@@ -13,11 +13,11 @@ const FilterForm = () => {
 			type: "Акции",
 			sector: "Финансы",
 			priceFrom: 0,
-			priceUpTo: 3000000000,
+			priceUpTo: 2953292,
 			capitalizationFrom: 0,
-			capitalizationUpTo: 7000000000000,
+			capitalizationUpTo: 6883645978240,
 			volumeFrom: 0,
-			volumeUpTo: 100000000000,
+			volumeUpTo: 1236600886,
 		},
 	});
 
@@ -118,7 +118,7 @@ const FilterForm = () => {
 						Применить
 					</button>
 					<button
-						type="button"
+						type="submit"
 						className="rounded-xl bg-[#D3DDDE] hover:bg-[#a8b0b1] active:bg-[#7a8080] font-roboto px-4 py-2"
 						onClick={() => {
 							methods.reset();

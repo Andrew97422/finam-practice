@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import axios from "axios";
 import {
 	useMaterialReactTable,
 	MRT_Table,
@@ -61,6 +62,15 @@ const DataTable = () => {
 				size: 150,
 				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat("ru-RU", {
+						notation: "compact",
+						compactDisplay: "short",
+						minimumFractionDigits: 0,
+						maximumFractionDigits: 3,
+					}).format(number);
+				},
 			},
 			{
 				accessorKey: "averageTradingVolume",
@@ -68,6 +78,15 @@ const DataTable = () => {
 				size: 150,
 				enableSorting: true,
 				muiTableHeadCellProps: { align: "center" },
+				Cell: ({ cell }) => {
+					const number = cell.getValue();
+					return new Intl.NumberFormat("ru-RU", {
+						notation: "compact",
+						compactDisplay: "short",
+						minimumFractionDigits: 0,
+						maximumFractionDigits: 2,
+					}).format(number);
+				},
 			},
 		],
 		[]
@@ -76,9 +95,13 @@ const DataTable = () => {
 	const table = useMaterialReactTable({
 		columns,
 		data: data || [],
+
 		onPaginationChange: setPagination,
-		state: { pagination },
+		state: {
+			pagination,
+		},
 		rowCount: totalRows, // Убедитесь, что передаете общее количество строк в таблицу
+
 		enableRowSelection: false,
 		enableColumnOrdering: false,
 		enableGlobalFilter: false,
@@ -88,6 +111,7 @@ const DataTable = () => {
 		enableColumnVisibility: false,
 		enableFullScreenToggle: false,
 		manualPagination: true,
+		manualSorting: true,
 		muiTableHeadCellProps: {
 			sx: {
 				backgroundColor: "#ABD5D6",

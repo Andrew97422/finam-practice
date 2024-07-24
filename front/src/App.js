@@ -15,6 +15,7 @@ function App() {
 				</main>
 			</div>
 		</MainContextProvider>
+
 	);
 }
 

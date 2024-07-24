@@ -8,11 +8,11 @@ export const MainContextProvider = ({ children }) => {
 		type: "Акции",
 		sector: "Финансы",
 		priceFrom: 0,
-		priceUpTo: 3000000000,
+		priceUpTo: 2953292,
 		capitalizationFrom: 0,
-		capitalizationUpTo: 7000000000000,
+		capitalizationUpTo: 6883645978240,
 		volumeFrom: 0,
-		volumeUpTo: 100000000000,
+		volumeUpTo: 1236600886,
 	});
 
 	const [offset, setOffset] = useState(0);
