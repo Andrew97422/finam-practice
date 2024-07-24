@@ -103,15 +103,47 @@ public class FinanceInstrumentService {
     private List<FinanceInstrumentEntity> filterInstruments(FinanceInstrumentRequestDTO filter,
                                                             List<FinanceInstrumentEntity> l){
 
-        Predicate<FinanceInstrumentEntity> filterPredicate = fi -> {
-            return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
-                    fi.getInstrumentType().getName().equals(filter.getType()) &&
-                    applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
-                    applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
-                            filter.getVolumeUpTo()) &&
-                    applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
-                            filter.getCapitalizationUpTo());
-        };
+        Predicate<FinanceInstrumentEntity> filterPredicate;
+        if (!filter.getSector().isEmpty() && !filter.getType().isEmpty()) {
+            filterPredicate = fi -> {
+                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
+                        fi.getInstrumentType().getName().equals(filter.getType()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else if (filter.getSector().isEmpty() && !filter.getType().isEmpty()){
+            filterPredicate = fi -> {
+                return fi.getInstrumentType().getName().equals(filter.getType()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else if (filter.getType().isEmpty() && !filter.getSector().isEmpty()){
+            filterPredicate = fi -> {
+                return fi.getFirm().getSector().getName().equals(filter.getSector()) &&
+                        applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
+        else{
+            filterPredicate = fi -> {
+                return applicationUtils.isInRange(fi.getPrice(), filter.getPriceFrom(), filter.getPriceUpTo()) &&
+                        applicationUtils.isInRange(fi.getAverageTradingVolume(), filter.getVolumeFrom(),
+                                filter.getVolumeUpTo()) &&
+                        applicationUtils.isInRange(fi.getFirm().getCapitalization(), filter.getCapitalizationFrom(),
+                                filter.getCapitalizationUpTo());
+            };
+        }
 
         return l.parallelStream().filter(filterPredicate).collect(Collectors.toList());
     }

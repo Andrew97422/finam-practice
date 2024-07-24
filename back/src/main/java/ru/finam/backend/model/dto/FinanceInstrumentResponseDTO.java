@@ -33,4 +33,10 @@ public class FinanceInstrumentResponseDTO {
     @Schema(description = "Ср. объем торгов", name = "averageTradingVolume", example = "0.5")
     private float averageTradingVolume;
 
+    @Schema(description = "Сектор", name = "sector", example = "Финансы")
+    private String sector;
+
+    @Schema(description = "Тип", name = "instrumentType", example = "Акции")
+    private String instrumentType;
+
 }
