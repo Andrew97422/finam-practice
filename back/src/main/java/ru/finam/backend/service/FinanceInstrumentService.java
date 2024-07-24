@@ -89,8 +89,8 @@ public class FinanceInstrumentService {
 
         if (!tickerName.isEmpty()) {
             cr.where(cb.or(
-                    cb.like(root.get("firm").get("ticker"), "%" + tickerName + "%"),
-                    cb.like(root.get("firm").get("name"), "%" + tickerName + "%")
+                    cb.like(cb.upper(root.get("firm").get("ticker")), cb.upper(cb.literal("%" + tickerName + "%"))),
+                    cb.like(cb.upper(root.get("firm").get("name")), cb.upper(cb.literal("%" + tickerName + "%")))
             ));
         }
 
