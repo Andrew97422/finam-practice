@@ -55,6 +55,31 @@ public class FinanceInstrumentService {
         return applicationUtils.convertListToPage(responseDTOList, offset, limit);
     }
 
+    public List<String> getFinanceTickerAndNameByFilter(FinanceInstrumentRequestDTO filter){
+
+        List<String> result = new ArrayList<>();
+
+        // Проверка полей DTO на валидность
+        validationService.checkRequestDTOFieldsAreValid(filter);
+
+        // Получение отфильтрованных данных либо из кэша, либо из БД
+        List<FinanceInstrumentEntity> entitylist = getInstruments(filter);
+
+        // Преобразование списка сущностей в список responseDTO
+        List<FinanceInstrumentResponseDTO> responseDTOList =
+                applicationUtils.mapToFinanceInstrumentResponseDTOList(entitylist);
+
+        // Преобразование к List<string>
+        for(FinanceInstrumentResponseDTO resp:responseDTOList){
+            result.add(resp.getName());
+            result.add(resp.getTicker());
+        }
+
+        // Возвращаем List<string>
+        return result;
+    }
+
+
     private List<FinanceInstrumentEntity> getInstruments(FinanceInstrumentRequestDTO filter){
         String tickerName = filter.getTickerName();
         List<FinanceInstrumentEntity> entityList;
